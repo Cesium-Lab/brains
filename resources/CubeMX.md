@@ -1,0 +1,15 @@
+# CubeMX Workflow
+- Make new project and set directory to this one
+- Resources
+  - [Deep Blue Embedded STM Stuff](https://deepbluembedded.com/stm32-arm-programming-tutorials/)
+  - [ST C Generator Reference PDF](https://www.st.com/resource/en/user_manual/um1718-stm32cubemx-for-stm32-configuration-and-initialization-c-code-generation-stmicroelectronics.pdf)
+- Process
+  - [Project setup](https://wiki.st.com/stm32mcu/wiki/Getting_started_with_Start_from_board)
+    - Check `Generate demonstration code` if you would like
+    - Questions...
+      - Do I need to set the pins for ADC/GPIO before codegen?
+- Auto generates
+  - main.c
+    - HAL_RCC
+  - stm32xxxx_hal_conf.h
+    - oscillator frequencies and V_DD values
