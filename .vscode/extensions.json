@@ -1,0 +1,21 @@
+{
+    // See http://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
+    "recommendations": [
+        "espressif.esp-idf-extension",
+        "ms-python.autopep8",
+        "ms-python.debugpy",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.vscode-python-envs",
+        "ms-toolsai.jupyter-keymap",
+        "platformio.platformio-ide",
+        "STMicroelectronics.stm32-vscode-extension",
+        "streetsidesoftware.code-spell-checker",
+        "twxs.cmake",
+        "yzhang.markdown-all-in-one"
+    ],
+    "unwantedRecommendations": [
+        "ms-vscode.cpptools-extension-pack"
+    ]
+}
