@@ -2,6 +2,7 @@
 
 int main() {
     Serial.begin(115200);
+    Serial.println("This is the Playground Target");
     Serial.println("setup");
     
     while(1) {
