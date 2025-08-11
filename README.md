@@ -8,6 +8,11 @@
 - ESP IDF Toolchain
 - STM 32 Toolchain -->
 
+# ESPIDF
+- if no sdkconfig.h then run `pio run --target menuconfig` (then press escape?) 
+
+# Issues
+- If VS Code is struggling to make/delete files, etc. run `lsof +D [path_to_brains_repo]` and kill the processes
 
 # Folder structure?
 ```

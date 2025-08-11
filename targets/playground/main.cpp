@@ -1,11 +1,13 @@
-#include <Arduino.h>
+#include "core/hal.h"
 
-void setup() {
+int main() {
     Serial.begin(115200);
-    Serial.println("This is the \"Playground\" Target");
-}
+    Serial.println("setup");
+    
+    while(1) {
+        Serial.println("loop");
+        delay(1000);
+    }
 
-void loop() {
-    Serial.println("wow");
-    delay(1000);
+    return 0;
 }

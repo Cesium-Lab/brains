@@ -467,6 +467,7 @@
             "defines": [
                 "PLATFORMIO=60118",
                 "ARDUINO_ESP32_DEV",
+                "ESP32_ARDUINO",
                 "HAVE_CONFIG_H",
                 "MBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\"",
                 "UNITY_INCLUDE_CONFIG_H",
@@ -485,8 +486,8 @@
                 ""
             ],
             "cStandard": "gnu99",
-            "cppStandard": "gnu++11",
-            "compilerPath": "/Users/magi-nerv/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-gcc",
+            "cppStandard": "gnu++17",
+            "compilerPath": "/Users/magi-nerv/.platformio/packages/toolchain-xtensa-esp32@8.4.0+2021r2-patch5/bin/xtensa-esp32-elf-gcc",
             "compilerArgs": [
                 "-mlongcalls",
                 ""
