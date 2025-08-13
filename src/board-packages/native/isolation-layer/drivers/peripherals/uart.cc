@@ -73,7 +73,7 @@ uint32_t Uart::transmit(char data)
     return write(_uart_instance, &data, 1);
 }
 
-uint32_t Uart::transmit(char* data)
+uint32_t Uart::transmit(const char* data)
 {
     return write(_uart_instance, data, strlen(data));
 }

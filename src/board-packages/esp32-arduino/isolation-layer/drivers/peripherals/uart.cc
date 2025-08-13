@@ -39,7 +39,7 @@ uint32_t Uart::transmit(char data)
 /**
  * C string
  */
-uint32_t Uart::transmit(char* data)
+uint32_t Uart::transmit(const char* data)
 {
     return Serial.print(data);
 }

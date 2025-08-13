@@ -13,7 +13,7 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
     bool initialize();
     // uint32_t transmit(String data);
     uint32_t transmit(char data);
-    uint32_t transmit(char* data);
+    uint32_t transmit(const char* data);
 
     bool available();
     uint8_t read();
