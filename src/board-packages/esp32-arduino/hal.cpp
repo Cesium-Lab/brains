@@ -1,10 +1,10 @@
 #include "hal.h"
+#include <Arduino.h>
 
-void setup() {
-    Serial.print("extra?");
-}
+void setup() {}
 
-void loop() {
-    Serial.print("extra!");
-    main();
+void loop() {main();}
+
+void esp_delay(uint64_t microseconds) {
+    delay(microseconds);
 }

@@ -21,20 +21,22 @@ brains/
 ├── src/
 │   │
 │   ├── core/                        # Hardware-agnostic core logic
-│   │   ├── drivers/                  
-│   │   │   ├── peripherals/          # Abstracted interfaces for later
-│   │   │   │   - "middleware" that currently just calls Arduino framework
-│   │   │   │   ├── spi.h
-│   │   │   │   ├── spi.cpp
-│   │   │   │   ├── i2c.h
-│   │   │   │   ├── i2c.cpp
-│   │   │   │   ├── uart.h
-│   │   │   │   └── uart.cpp
+│   │   ├── device-drivers/                  
 │   │   │   └── devices/              # Specific device drivers
 │   │   │       ├── icm20948.h
 │   │   │       ├── icm20948.cpp
 │   │   │       ├── lis3mdl.h
 │   │   │       └── lis3mdl.cpp
+│   │   ├── isolation-layer/                  
+│   │   │   ├── os/          # delay, etc.
+│   │   │   └── peripherals/          # Abstracted interfaces for later
+│   │   │       - "middleware" that currently just calls Arduino framework
+│   │   │       ├── spi.h
+│   │   │       ├── spi.cpp
+│   │   │       ├── i2c.h
+│   │   │       ├── i2c.cpp
+│   │   │       ├── uart.h
+│   │   │       └── uart.cpp
 │   │   ├── apps/                      # Apps
 │   │   │   ├── NetworkServer/
 │   │   │   ├── Filesystem/

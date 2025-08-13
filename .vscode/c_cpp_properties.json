@@ -9,6 +9,8 @@
             "name": "PlatformIO",
             "includePath": [
                 "/Users/magi-nerv/Space-Specifically/Cesium/brains/src",
+                "/Users/magi-nerv/Space-Specifically/Cesium/brains/.pio/libdeps/esp32_playground/Embedded Template Library/include",
+                "/Users/magi-nerv/Space-Specifically/Cesium/brains/.pio/libdeps/esp32_playground/Embedded Template Library",
                 "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -238,6 +240,8 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
                     "/Users/magi-nerv/Space-Specifically/Cesium/brains/src",
+                    "/Users/magi-nerv/Space-Specifically/Cesium/brains/.pio/libdeps/esp32_playground/Embedded Template Library/include",
+                    "/Users/magi-nerv/Space-Specifically/Cesium/brains/.pio/libdeps/esp32_playground/Embedded Template Library",
                     "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "/Users/magi-nerv/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",

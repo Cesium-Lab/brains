@@ -1,10 +1,13 @@
 #pragma once
 
-#include <Arduino.h>
+#include <cstdint>
+// #include <Arduino.h>
 
 extern int main();
 
-void setup();
+void esp_delay(uint64_t microseconds);
 
-void loop();
+// void setup();
+
+// void loop();
 
