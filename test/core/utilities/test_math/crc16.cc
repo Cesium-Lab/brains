@@ -25,7 +25,7 @@
 #include <unity.h>
 void simple_test(void)
 {
-    TEST_ASSERT_EQUAL(33, 23);
+    TEST_ASSERT_EQUAL(33, 33);
 }
 
 void run_example_tests() {

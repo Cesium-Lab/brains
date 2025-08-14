@@ -1,5 +1,7 @@
 #pragma once
 
+int main();
+
 namespace Cesium {
 
 void hal_init();
