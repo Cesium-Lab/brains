@@ -1,14 +1,10 @@
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace Cesium {
 
-int main();
+void hal_init();
 
-#ifdef __cplusplus
-}
-#endif
+} // namespace Cesium
 
 // #ifdef ESP32_ARDUINO
 // #include "board-packages/esp32-arduino/hal.h"

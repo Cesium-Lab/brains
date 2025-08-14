@@ -42,11 +42,9 @@ Adapted from python library crc16 by Gennady Trafimenkov:
 #pragma once
 
 #include <vector>
-#include <Arduino.h>
+#include <cstdint>
 
-namespace Cesium {
-
-int CRC16_XMODEM_TABLE[] = {
+uint16_t CRC16_XMODEM_TABLE[] = {
     0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
     0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
     0x1231, 0x0210, 0x3273, 0x2252, 0x52b5, 0x4294, 0x72f7, 0x62d6,
@@ -81,7 +79,7 @@ int CRC16_XMODEM_TABLE[] = {
     0x6e17, 0x7e36, 0x4e55, 0x5e74, 0x2e93, 0x3eb2, 0x0ed1, 0x1ef0,
 };
 
-uint16_t _crc16(std::vector<uint8_t> data, int crc, int* table) {
+uint16_t _crc16(const uint8_t* data, uint8_t length, uint16_t crc, uint16_t* table) {
     /*
     Calculate CRC16 using the given table.
     `data`      - data for calculating CRC, must be bytes
@@ -89,14 +87,14 @@ uint16_t _crc16(std::vector<uint8_t> data, int crc, int* table) {
     `table`     - table for caclulating CRC (list of 256 integers)
     Return calculated value of CRC
     */
-    for (auto byte : data) {
-        crc = ((crc<<8)&0xff00) ^ table[((crc>>8)&0xff)^byte];
+    for (uint64_t i = 0; i < length; i++) {
+        crc = ((crc<<8)&0xff00) ^ table[((crc>>8)&0xff)^(data[i])];
     }
 
     return (crc & 0xffff);
 }
 
-uint16_t crc16xmodem(std::vector<uint8_t> data, int crc = 0) {
+uint16_t crc16xmodem(const uint8_t* data, uint8_t length, uint16_t crc = 0) {
     /*
     Calculate CRC-CCITT (XModem) variant of CRC16.
     `data`      - data for calculating CRC, must be bytes
@@ -104,7 +102,5 @@ uint16_t crc16xmodem(std::vector<uint8_t> data, int crc = 0) {
     Return calculated value of CRC
     */
 
-    return _crc16(data, crc, CRC16_XMODEM_TABLE);
-}
-
+    return _crc16(data, length, crc, CRC16_XMODEM_TABLE);
 }

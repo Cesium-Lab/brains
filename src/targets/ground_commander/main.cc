@@ -4,7 +4,10 @@
 #include "core/isolation-layer/time.h"
 #include <iostream>
 #include <cstdio>
-Cesium::Uart uart(115200);
+
+char port_name[] = "/dev/cu.usbmodem11403"; // For Nucleo f042k6
+
+Cesium::Uart uart(115200, 0, port_name);
 
 using namespace std;
 
@@ -23,7 +26,7 @@ int main() {
         cout << endl;
         
 
-        Cesium::Time::delay(1000000);
+        Cesium::Time::delay_us(1000000);
     }
 
     return 0;

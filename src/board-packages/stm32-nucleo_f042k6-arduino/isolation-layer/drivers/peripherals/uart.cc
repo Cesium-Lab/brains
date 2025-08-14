@@ -1,8 +1,7 @@
 #include "core/isolation-layer/peripherals/uart.h"
 #include <HardwareSerial.h>
-// #ifdef ESP32_ARDUINO
-// #include "board-packages/esp32-arduino/drivers/peripherals/uart.h"
-// #endif
+#include <Arduino.h>
+// Uses Serial because the VCOM port is set to that
 
 namespace Cesium {
 

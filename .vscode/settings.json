@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.cpp": "cpp",
-        "uart.h": "c",
+        "*.cc": "cpp",
+        "*.h": "cpp",
         "array": "cpp",
         "deque": "cpp",
         "string": "cpp",

@@ -10,13 +10,16 @@
 
 namespace Cesium {
 
-Uart::Uart(uint32_t baud_rate, int8_t uart_instance) 
-    : _baud_rate(baud_rate), _uart_instance(uart_instance) {}
+Uart::Uart(uint32_t baud_rate, int8_t uart_instance, const char* port_name) 
+    : _baud_rate(baud_rate), _uart_instance(uart_instance), _uart_name{port_name} {}
 
 bool Uart::initialize()
 {
-    const char* portName = "/dev/tty.usbserial-0001"; // or "/dev/tty.SLAB_USBtoUART" on macOS
-    _uart_instance = open(portName, O_RDWR | O_NOCTTY | O_NONBLOCK);
+    const char* port_name = "/dev/tty.usbserial-0001"; // or "/dev/tty.SLAB_USBtoUART" on macOS
+    if (_uart_name != nullptr) {
+        port_name = _uart_name;
+    }
+    _uart_instance = open(port_name, O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (_uart_instance == -1) {
         perror("Error opening serial port");
