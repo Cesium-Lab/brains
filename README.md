@@ -20,23 +20,25 @@ brains/
 │
 ├── src/
 │   │
-│   ├── core/                        # Hardware-agnostic core logic
-│   │   ├── device-drivers/                  
-│   │   │   └── devices/              # Specific device drivers
-│   │   │       ├── icm20948.h
-│   │   │       ├── icm20948.cpp
-│   │   │       ├── lis3mdl.h
-│   │   │       └── lis3mdl.cpp
-│   │   ├── isolation-layer/                  
-│   │   │   ├── os/          # delay, etc.
-│   │   │   └── peripherals/          # Abstracted interfaces for later
-│   │   │       - "middleware" that currently just calls Arduino framework
-│   │   │       ├── spi.h
+│   ├── board-packages/                # MCU-specific low-level implementations
+│   │   │
+│   │   ├── esp32-arduino/
+│   │   │   ├── hal.cpp          # Linking main(), setup(), loop() if needed
+│   │   │   ├── time.cpp          # delay, etc.
+│   │   │   ├── os/                 # delay, etc.
+│   │   │   └── peripherals/          # Isolation layer interface for linking
 │   │   │       ├── spi.cpp
-│   │   │       ├── i2c.h
 │   │   │       ├── i2c.cpp
-│   │   │       ├── uart.h
 │   │   │       └── uart.cpp
+│   │   │
+│   │   ├── stm32-arduino/
+│   │   │   └── ...
+│   │   │
+│   │   └── atmel/
+│   │       └── ... 
+│   │
+│   ├── core/                        # Hardware-agnostic core logic
+│   │   │
 │   │   ├── apps/                      # Apps
 │   │   │   ├── NetworkServer/
 │   │   │   ├── Filesystem/
@@ -51,35 +53,29 @@ brains/
 │   │   │   ├── enums/
 │   │   │   └── filesystem/
 │   │   │
+│   │   ├── device-drivers/        # Specific device drivers
+│   │   │   ├── icm20948.h
+│   │   │   ├── icm20948.cpp
+│   │   │   ├── lis3mdl.h
+│   │   │   └── lis3mdl.cpp
+│   │   │
+│   │   ├── isolation-layer/   # source files are under each board package               
+│   │   │   ├── hal.h          # For linking main(), setup(), loop() if needed
+│   │   │   ├── time.h          # delay, etc.
+│   │   │   ├── os/                 # delay, etc.
+│   │   │   └── peripherals/          # Isolation layer interface for linking
+│   │   │       ├── spi.h
+│   │   │       ├── i2c.h
+│   │   │       └── uart.h
+│   │   │
 │   │   └── utilities/
 │   │       ├── math/
 │   │       ├── time/
 │   │       └── misc/
 │   │
-│   ├── board-packages/                # MCU-specific low-level implementations
-│   │   ├── esp32/
-│   │   │   ├── spi.h
-│   │   │   ├── spi.cpp
-│   │   │   ├── i2c.h
-│   │   │   ├── i2c.cpp
-│   │   │   ├── uart.h
-│   │   │   └── uart.cpp
-│   │   ├── stm32/
-│   │   │   ├── spi.h
-│   │   │   ├── spi.cpp
-│   │   │   ├── i2c.h
-│   │   │   ├── i2c.cpp
-│   │   │   ├── uart.h
-│   │   │   └── uart.cpp
-│   │   └── atmel/
-│   │       ├── spi.h
-│   │       ├── spi.cpp
-│   │       ├── i2c.h
-│   │       ├── i2c.cpp
-│   │       ├── uart.h
-│   │       └── uart.cpp
 │   │
 │   └── targets/
+│       │
 │       ├── flight-computer/
 │       │   - mission sequencing, telemetry, high level logic
 │       ├── gnc/
@@ -89,7 +85,7 @@ brains/
 │       ├── power/
 │       │   - monitors power and gives it to other boards
 │       ├── switching/
-│       │   └── 
+│       │   
 │       ├── recovery/
 │       │   - altimeters, triggers sep with FETk
 │       ├── camera/
@@ -99,13 +95,15 @@ brains/
 │       └── logger/
 │           - logs all bus dat
 │    
-├── lib/                           # Third-party libraries
+├── lib/                            # Third-party libraries
+│   ├── GoogleTest/                 # Unit testing
+│   ├── Unity/                      # Unit testing
 │   ├── tinyusb/
 │   └── fatfs/
 │
 ├── gnc/                            # sims
 │
-├── resources/                     # Docs, configs, test data, and tools
+├── resources/                      # Docs, configs, test data, and tools
 │   ├── docs/
 │   ├── test-data/
 │   ├── scripts/
