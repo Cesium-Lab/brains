@@ -1,3 +1,6 @@
+# This is going to become a monorepo. cope.
+
+
 # Steps
 - Install PlatformIO
 <!-- - Have docker -->
