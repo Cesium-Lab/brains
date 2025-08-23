@@ -1,10 +1,5 @@
-#include <Arduino.h>
 #include "core/isolation-layer/hal.h"
-
-// Silencing the gods of Arduino linkage
-int main();
-void loop() {}
-void setup() { main(); }
+#include <Arduino.h>
 
 namespace Cesium {
     

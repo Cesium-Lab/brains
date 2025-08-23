@@ -1,13 +1,12 @@
 #include "core/isolation-layer/peripherals/uart.h"
 #include <HardwareSerial.h>
-// #ifdef ESP32_ARDUINO
-// #include "board-packages/esp32-arduino/drivers/peripherals/uart.h"
-// #endif
+#include <Arduino.h>
+// Uses Serial because the VCOM port is set to that
 
 namespace Cesium {
 
 Uart::Uart(uint32_t baud_rate, int8_t uart_instance, const char* port_name) 
-    : _baud_rate{baud_rate}, _uart_instance{uart_instance}, _uart_name{port_name} {}
+    : _baud_rate(baud_rate), _uart_instance(uart_instance), _uart_name{port_name} {}
 
 bool Uart::initialize()
 {
