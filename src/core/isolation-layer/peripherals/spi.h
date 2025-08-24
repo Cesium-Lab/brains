@@ -13,21 +13,23 @@ enum class SpiBitOrder {
 };
 
 enum class SpiMode {
-    _0,
-    _1,
-    _2,
-    _3
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+    _3 = 3
 };
 
-class SpiSettings
+struct SpiPort {
+    uint8_t MISO;
+    uint8_t MOSI;
+    uint8_t SCK;
+};
+
+struct SpiSettings
 {
-public:
-    SpiSettings() :_clock_hz(1000000), _bit_order(SpiBitOrder::MSB_FIRST), _spi_mode(SpiMode::_0) {}
-    SpiSettings(uint32_t clock_hz, SpiBitOrder bit_order, SpiMode spi_mode)
-        : _clock_hz(clock_hz), _bit_order(bit_order), _spi_mode(spi_mode) {}
-    uint32_t _clock_hz;
-    SpiBitOrder  _bit_order;
-    SpiMode  _spi_mode;
+    uint32_t _clock_hz = 1'000'000;
+    SpiBitOrder  _bit_order = SpiBitOrder::MSB_FIRST;
+    SpiMode  _spi_mode = SpiMode::_0;
 };
 
 // ------------------------------ //
@@ -36,26 +38,28 @@ public:
 
 class Spi {
   public:
-    Spi(uint8_t instance, SpiSettings settings = SpiSettings{} );
+    Spi(SpiSettings settings, SpiPort port);
 
     /**
      * Puts values into registers
      */
-    bool initialize();
+    void initialize();
+
+    void set_settings(SpiSettings settings);
+
+    void begin_transaction();
+    void end_transaction();
 
     uint8_t transfer(uint8_t input);
-
-    /* MSB/LSB agnostic */
-    uint16_t transfer(uint16_t input);
-    /* MSB/LSB agnostic */
-    uint32_t transfer(uint32_t input);
 
     /* MSB/LSB agnostic */
     void transfer(uint8_t* input, uint8_t size);
 
   private:
     SpiSettings _settings;
-    uint8_t _instance;
+    SpiPort _port;
 };
+
+extern SpiPort SPI0;
 
 } // namespace Cesium

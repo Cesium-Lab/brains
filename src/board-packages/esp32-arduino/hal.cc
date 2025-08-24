@@ -1,5 +1,5 @@
 #include "core/isolation-layer/hal.h"
-
+#include <Arduino.h>
 // Silencing the gods of Arduino linkage
 void loop() {}
 void setup() { main(); }
@@ -7,6 +7,7 @@ void setup() { main(); }
 namespace Cesium {
     
 void hal_init() {
+    ::init();
     // Just in case
 }
 
