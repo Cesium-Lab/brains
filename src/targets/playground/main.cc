@@ -28,13 +28,13 @@ int main() {
             Time::delay(25);
             Gpio::write_digital(Pin::BUILTIN_LED, false);
 
-            Time::delay(1000);
+            // Time::delay(1000);
 
-            Gpio::write_digital(Pin::BUILTIN_LED, true);
+            // Gpio::write_digital(Pin::BUILTIN_LED, true);
 
-            Time::delay(1000);
+            // Time::delay(1000);
 
-            Gpio::write_digital(Pin::BUILTIN_LED, false);
+            // Gpio::write_digital(Pin::BUILTIN_LED, false);
         }
 
         Time::delay(25);
