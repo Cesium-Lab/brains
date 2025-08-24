@@ -21,6 +21,18 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
     // template<std::size_t SIZE>
     // uint32_t transmit(etl::array<uint8_t, SIZE> arr);
 
+    // Helper
+    static uint8_t to_char(uint8_t num, bool lower_half = true) {
+        uint8_t masked = lower_half 
+            ? (num & 0x0F) + '0'
+            : ( (num >> 4) & 0x0F) + '0';
+
+        if (masked > '9')
+            masked += 7; // To get to letters
+
+        return masked;
+    }
+
   private:
     uint32_t _baud_rate;
     int8_t _uart_instance;

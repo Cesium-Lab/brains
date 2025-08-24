@@ -31,11 +31,12 @@ void Spi::initialize()
 }
 
 void Spi::set_settings(SpiSettings settings) {
-    // Conversion of my SpiSettings into Arduino's
+   
     _settings = settings;
 }
 
 void Spi::begin_transaction() {
+     // Conversion of my SpiSettings into Arduino's
     SPISettings arduino_settings{
         _settings._clock_hz,
         (_settings._bit_order == SpiBitOrder::MSB_FIRST) ? uint8_t(SPI_MSBFIRST) : uint8_t(SPI_LSBFIRST),
