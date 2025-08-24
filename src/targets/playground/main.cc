@@ -3,7 +3,7 @@
 #include "core/isolation-layer/peripherals/gpio.h"
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/time.h"
-#include <Arduino.h>
+
 using namespace Cesium;
 Uart uart(115200);
 
@@ -23,9 +23,8 @@ int main() {
 
     // SPI initialization
     spi.initialize();
-    Gpio::init_digital(5, GpioType::DIGITAL_OUT);
+    Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
     
-    // etl::vector<char> char_vec = {1};
 
     while(1) {
         uart.transmit("Loop\n");
@@ -52,32 +51,20 @@ int main() {
 
         // Time::delay(25);
         // Cesium::Time::delay(25);
-        uart.transmit((char)'h');
-        uart.transmit((char)'m');
-        uart.transmit((char)'m');
-        uart.transmit((char)'\n');
-        Gpio::write_digital(5, false);
-        
-        // spi.transfer(0x80);
+
+        Gpio::write_digital(Pin::IMU_CS, false);
+
         spi.begin_transaction();
         uint8_t result = spi.transfer(0x80);
         spi.end_transaction();
         
-        Gpio::write_digital(5, true);
-        uart.transmit(result);
-        Serial.println(result, HEX);
-        Serial.println(result, HEX);
+        Gpio::write_digital(Pin::IMU_CS, true);
 
-        uart.transmit((char)'h');
-        uart.transmit((char)'m');
-        uart.transmit((char)'m');
+        uart.transmit(uart.to_char(result, false));
+        uart.transmit(uart.to_char(result, true));
         uart.transmit((char)'\n');
 
         Cesium::Time::delay(1000);
-
-        
-
-        
     }
 
     return 0;
