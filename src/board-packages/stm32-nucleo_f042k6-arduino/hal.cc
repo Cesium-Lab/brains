@@ -6,7 +6,7 @@
 namespace Cesium {
     
 void hal_init() {
-    ::init();
+    ::init(); // NEEDS this! (for the onboard timer I think)
 }
 
 namespace Pin {
