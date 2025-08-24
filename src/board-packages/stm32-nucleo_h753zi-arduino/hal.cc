@@ -3,7 +3,6 @@
 #include <board.h> // init()
 #include <pins_arduino_analog.h> // Analog Pins Macros
 
-// #include <Arduino.h>
 namespace Cesium {
     
 void hal_init() {
