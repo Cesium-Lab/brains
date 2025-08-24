@@ -1,6 +1,6 @@
 #include "core/isolation-layer/time.h"
 
-#include <Arduino.h>
+#include <esp32-hal.h>
 
 void Cesium::Time::delay_us(uint32_t microseconds)
 {

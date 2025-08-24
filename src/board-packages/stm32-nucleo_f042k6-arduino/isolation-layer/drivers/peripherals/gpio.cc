@@ -1,7 +1,8 @@
 #include "core/isolation-layer/peripherals/gpio.h"
 #include "core/isolation-layer/hal.h"
 
-#include <esp32-hal-gpio.h>
+#include <wiring_digital.h>
+#include <wiring_constants.h>
 
 namespace Cesium {
 
