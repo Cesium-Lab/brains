@@ -2,7 +2,7 @@
 #include <SPI.h>
 #include <Adafruit_ICM20948.h>
 
-const uint8_t LED_PIN{13};
+const uint8_t LED_PIN{2};
 
 const uint8_t VSPI_SCK{18};
 const uint8_t VSPI_MOSI{23};
@@ -33,7 +33,6 @@ void setup() {
     // delay(2000);
     // dev.enableI2CMaster(true);
     // delay(2000);
-    
 }
 
 void loop() {
