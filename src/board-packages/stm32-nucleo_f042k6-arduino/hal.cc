@@ -1,7 +1,7 @@
 #include "core/isolation-layer/hal.h"
 
 #include <board.h> // init()
-#include <variant_NUCLEO_F042K6.h> // Macros
+#include <pins_arduino_analog.h> // PB3
 
 namespace Cesium {
     
