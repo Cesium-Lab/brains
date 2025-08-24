@@ -1,6 +1,6 @@
 #include "core/isolation-layer/peripherals/uart.h"
-#include <HardwareSerial.h>
-#include <Arduino.h>
+
+#include <WSerial.h>
 // Uses Serial because the VCOM port is set to that
 
 namespace Cesium {

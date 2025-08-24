@@ -1,8 +1,6 @@
 #include "core/isolation-layer/peripherals/uart.h"
+
 #include <HardwareSerial.h>
-// #ifdef ESP32_ARDUINO
-// #include "board-packages/esp32-arduino/drivers/peripherals/uart.h"
-// #endif
 
 namespace Cesium {
 

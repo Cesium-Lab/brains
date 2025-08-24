@@ -5,8 +5,8 @@
 #include <iostream>
 #include <cstdio>
 
-// char port_name[] = "/dev/cu.usbmodem11403"; // For Nucleo f042k6
-char port_name[] = "/dev/cu.usbserial-0001"; // For ESP32
+char port_name[] = "/dev/cu.usbmodem1403"; // For Nucleo f042k6/z753zi
+// char port_name[] = "/dev/cu.usbserial-0001"; // For ESP32
 
 
 Cesium::Uart uart(115200, 0, port_name);
