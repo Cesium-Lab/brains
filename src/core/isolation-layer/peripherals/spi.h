@@ -22,7 +22,7 @@ enum class SpiMode {
 struct SpiPort {
     uint8_t MISO;
     uint8_t MOSI;
-    uint8_t SCK;
+    uint8_t SCLK;
 };
 
 struct SpiSettings

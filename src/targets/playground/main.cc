@@ -15,7 +15,6 @@ Spi spi{spi_settings, SPI0};
 int main() {
     hal_init();
 
-    Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
     
     uart.initialize();
     uart.transmit("This is the ESP32 Arduino Playground Target\n");
@@ -40,13 +39,6 @@ int main() {
             Time::delay(25);
             Gpio::write_digital(Pin::BUILTIN_LED, false);
 
-            // Time::delay(1000);
-
-            // Gpio::write_digital(Pin::BUILTIN_LED, true);
-
-            // Time::delay(1000);
-
-            // Gpio::write_digital(Pin::BUILTIN_LED, false);
         }
 
         // Time::delay(25);

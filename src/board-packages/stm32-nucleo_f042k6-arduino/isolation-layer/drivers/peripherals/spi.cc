@@ -1,23 +1,24 @@
 #include "core/isolation-layer/peripherals/spi.h"
-// #include <Arduino.h>
-#include <SPI.h>
 
-// THESE WILL CHANGE
-// const uint8_t SCLK{18};
-// const uint8_t MOSI{23};
-// const uint8_t MISO{19};
-// const uint8_t CS{5};
+#include <pins_arduino.h> // PIN_SPI
+
+#include <SPI.h>
 
 namespace Cesium {
 
 SpiPort SPI0 = SpiPort{
-    .MISO = 19,
-    .MOSI = 23,
-    .SCLK = 18
+    .MISO = PIN_SPI_MISO,
+    .MOSI = PIN_SPI_MOSI,
+    .SCLK = PIN_SPI_SCK
 };
+
+// SpiPort SPI0 = SpiPort{
+//     .MISO = PinName::PA6,
+//     .MOSI = PinName::PA7,
+//     .SCLK = PinName::PA5
+// };
     
 SPIClass _spi;
-SPISettings _arduino_settings;
 
 Spi::Spi(SpiSettings settings, SpiPort port) 
     : _settings{settings}, _port{port} {}
@@ -25,7 +26,10 @@ Spi::Spi(SpiSettings settings, SpiPort port)
 
 void Spi::initialize()
 {
-    _spi.begin(_port.SCLK, _port.MISO, _port.MOSI);
+    SPI.begin();
+    _spi.setMISO(_port.MISO);
+    _spi.setMOSI(_port.MOSI);
+    _spi.setSCLK(_port.SCLK);
 
     set_settings(_settings);
 }
@@ -39,8 +43,8 @@ void Spi::begin_transaction() {
      // Conversion of my SpiSettings into Arduino's
     SPISettings arduino_settings{
         _settings._clock_hz,
-        (_settings._bit_order == SpiBitOrder::MSB_FIRST) ? uint8_t(SPI_MSBFIRST) : uint8_t(SPI_LSBFIRST),
-        uint8_t(_settings._spi_mode) // Simple casting by numbers
+        (_settings._bit_order == SpiBitOrder::MSB_FIRST) ? BitOrder::MSBFIRST : BitOrder::LSBFIRST,
+        SPIMode(_settings._spi_mode) // Simple casting by numbers
     };
 
     _spi.beginTransaction(arduino_settings);
