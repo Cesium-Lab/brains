@@ -26,7 +26,7 @@ Spi::Spi(SpiSettings settings, SpiPort port)
 
 void Spi::initialize()
 {
-    SPI.begin();
+    _spi.begin();
     _spi.setMISO(_port.MISO);
     _spi.setMOSI(_port.MOSI);
     _spi.setSCLK(_port.SCLK);
@@ -59,7 +59,7 @@ uint8_t Spi::transfer(uint8_t input)
     uint8_t output;
 
     _spi.transfer(input);
-    output = _spi.transfer({});
+    output = _spi.transfer(0x00);
 
     return output;
 }

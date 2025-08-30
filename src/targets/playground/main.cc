@@ -3,11 +3,13 @@
 #include "core/isolation-layer/peripherals/gpio.h"
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/time.h"
+// #include <Arduino.h>
+// #include <SPI.h>
 
 using namespace Cesium;
 Uart uart(115200);
 
-SpiSettings spi_settings{ /* Defaults */};
+SpiSettings spi_settings{1'000'000, SpiBitOrder::MSB_FIRST, SpiMode::_0};
 
 Spi spi{spi_settings, SPI0};
 
@@ -15,7 +17,8 @@ Spi spi{spi_settings, SPI0};
 int main() {
     hal_init();
 
-    
+    // UART
+    // Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
     uart.initialize();
     uart.transmit("This is the ESP32 Arduino Playground Target\n");
     uart.transmit("Setup\n");
@@ -23,7 +26,7 @@ int main() {
     // SPI initialization
     spi.initialize();
     Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
-    
+    Gpio::write_digital(Pin::IMU_CS, true);
 
     while(1) {
         uart.transmit("Loop\n");
@@ -38,11 +41,10 @@ int main() {
             uart.transmit("\n");
             Time::delay(25);
             Gpio::write_digital(Pin::BUILTIN_LED, false);
-
         }
 
-        // Time::delay(25);
-        // Cesium::Time::delay(25);
+        Time::delay(25);
+        Cesium::Time::delay(25);
 
         Gpio::write_digital(Pin::IMU_CS, false);
 
