@@ -12,7 +12,11 @@ void hal_init() {
 namespace Pin {
 
 const uint8_t BUILTIN_LED{PA5};
+const uint8_t IMU_CS{PB6}; // D10
 
+const uint8_t SPI_SCK{PA5}; // D13
+const uint8_t SPI_MOSI{PA7}; // D11
+const uint8_t SPI_MISO{PA6}; // D12
 }
 
 } // namespace Cesium
