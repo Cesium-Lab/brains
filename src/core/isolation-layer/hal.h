@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "core/isolation-layer/peripherals/spi.h"
 
 int main(); // Implemented in main.cc
 
@@ -8,6 +9,12 @@ int main(); // Implemented in main.cc
 namespace Cesium {
 
 void hal_init();
+
+extern SpiPort Spi0;
+extern SpiPort Spi1;
+extern SpiPort Spi2;
+extern SpiPort Spi3;
+extern SpiPort Spi4;
 
 namespace Pin {
 extern const uint8_t BUILTIN_LED;
