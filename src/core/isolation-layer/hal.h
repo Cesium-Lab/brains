@@ -15,6 +15,8 @@ extern SpiPort Spi1;
 extern SpiPort Spi2;
 extern SpiPort Spi3;
 extern SpiPort Spi4;
+extern SpiPort Spi5;
+extern SpiPort Spi6;
 
 namespace Pin {
 extern const uint8_t BUILTIN_LED;

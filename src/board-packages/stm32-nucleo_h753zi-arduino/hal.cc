@@ -11,7 +11,7 @@ void hal_init() {
 
 
 // SPI
-SpiPort Spi0 = SpiPort{};
+SpiPort Spi0{};
 
 SpiPort Spi1 = SpiPort{
     .MISO = PA6, // D12
@@ -20,18 +20,26 @@ SpiPort Spi1 = SpiPort{
 };
 
 SpiPort Spi2 = SpiPort{
-    .MISO = PC2_C, // 
-    .MOSI = PC3_C, // 
-    .SCLK = PA9 // 
+    .MISO = PC2_C, 
+    .MOSI = PC3_C, 
+    .SCLK = PA9 
 };
 
-SpiPort Spi3 = SpiPort{};
+SpiPort Spi3 = SpiPort{
+    .MISO = PA6, // D12
+    .MOSI = PB5, // D11
+    .SCLK = PA5 // D13 
+};
 
 SpiPort Spi4 = SpiPort{
-    .MISO = PE5,
-    .MOSI = PE6,
-    .SCLK = PE12
+    .MISO = PE5, // D58
+    .MOSI = PE6, // D59
+    .SCLK = PE12 // D39
+    // CS{PE4}
 };
+
+SpiPort Spi5{};
+SpiPort Spi6{};
 
 
 

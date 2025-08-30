@@ -11,7 +11,7 @@ Uart uart(115200);
 
 SpiSettings spi_settings{1'000'000, SpiBitOrder::MSB_FIRST, SpiMode::_0};
 
-Spi spi{spi_settings, Spi1}; // F753
+Spi spi{spi_settings, Spi3}; // F753
 
 
 int main() {
