@@ -5,18 +5,6 @@
 #include <SPI.h>
 
 namespace Cesium {
-
-SpiPort SPI0 = SpiPort{
-    .MISO = PIN_SPI_MISO,
-    .MOSI = PIN_SPI_MOSI,
-    .SCLK = PIN_SPI_SCK
-};
-
-// SpiPort SPI0 = SpiPort{
-//     .MISO = PinName::PA6,
-//     .MOSI = PinName::PA7,
-//     .SCLK = PinName::PA5
-// };
     
 SPIClass _spi;
 

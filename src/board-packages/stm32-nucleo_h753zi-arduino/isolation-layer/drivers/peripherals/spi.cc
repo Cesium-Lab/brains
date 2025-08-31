@@ -3,12 +3,6 @@
 // #include <Arduino.h>
 #include <SPI.h>
 
-// THESE WILL CHANGE
-// const uint8_t SCLK{18};
-// const uint8_t MOSI{23};
-// const uint8_t MISO{19};
-// const uint8_t CS{5};
-
 namespace Cesium {
 
 
@@ -23,9 +17,6 @@ Spi::Spi(SpiSettings settings, SpiPort port)
 void Spi::initialize()
 {
     _spi.begin();
-    Gpio::init_digital(_port.MISO, GpioType::DIGITAL_OUT);
-    Gpio::init_digital(_port.MOSI, GpioType::DIGITAL_OUT);
-    Gpio::init_digital(_port.SCLK, GpioType::DIGITAL_OUT);
     _spi.setMISO(_port.MISO);
     _spi.setMOSI(_port.MOSI);
     _spi.setSCLK(_port.SCLK);

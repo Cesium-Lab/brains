@@ -2,20 +2,8 @@
 // #include <Arduino.h>
 #include <SPI.h>
 
-// THESE WILL CHANGE
-// const uint8_t SCLK{18};
-// const uint8_t MOSI{23};
-// const uint8_t MISO{19};
-// const uint8_t CS{5};
-
 namespace Cesium {
 
-SpiPort SPI0 = SpiPort{
-    .MISO = 19,
-    .MOSI = 23,
-    .SCLK = 18
-};
-    
 SPIClass _spi;
 SPISettings _arduino_settings;
 
