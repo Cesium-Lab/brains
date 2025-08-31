@@ -14,13 +14,8 @@ void hal_init() {
 // -------------------------
 
 namespace Pin {
-
 const uint8_t BUILTIN_LED{PB0};
 const uint8_t IMU_CS{PD14}; // D10
-
-const uint8_t SPI_SCK{}; // D13
-const uint8_t SPI_MOSI{}; // D11
-const uint8_t SPI_MISO{}; // D12
 }
 
 

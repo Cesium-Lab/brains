@@ -10,16 +10,25 @@ void hal_init() {
     ::init(); // NEEDS this! (for the onboard timer I think)
 }
 
+// -------------------------
+// Pins
+// -------------------------
+
 namespace Pin {
-
 const uint8_t BUILTIN_LED{PB3};
-
-const uint8_t SPI_SCK{PIN_SPI_SCK}; // 13
-const uint8_t SPI_MOSI{PIN_SPI_MOSI}; // 11
-const uint8_t SPI_MISO{PIN_SPI_MISO}; // 12
-const uint8_t IMU_CS{PIN_SPI_SS}; // 10
+const uint8_t IMU_CS{PA11}; // 10
 }
 
+// -------------------------
+// SPI Ports
+// -------------------------
 
+// A bunch of random SPI stuff that has not completely been checked. (Can shave down later)
+
+SpiPort Spi1 = SpiPort{
+    .MISO = PB4, // D12
+    .MOSI = PB5, // D11
+    .SCLK = PB3 // D13
+};
 
 } // namespace Cesium

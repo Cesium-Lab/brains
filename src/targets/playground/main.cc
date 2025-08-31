@@ -11,7 +11,7 @@ Uart uart(115200);
 
 SpiSettings spi_settings{};
 
-Spi spi{spi_settings, Spi3}; // F753
+Spi spi{spi_settings, Spi1};
 
 
 int main() {

@@ -30,37 +30,37 @@ extern const uint8_t SPI_CS;
 
 
 /*
-F753 - X
 */
 extern SpiPort Spi0;
 
 /*
-F753
+Nucleo F753
+Nucleo F042
 */
 extern SpiPort Spi1;
 
 /*
-F753
+Nucleo F753
 */
 extern SpiPort Spi2;
 
 /*
-F753
+Nucleo F753
 */
 extern SpiPort Spi3;
 
 /*
-F753
+Nucleo F753
 */
 extern SpiPort Spi4;
 
 /*
-F753
+Nucleo F753
 */
 extern SpiPort Spi5;
 
 /*
-F753
+Nucleo F753
 */
 extern SpiPort Spi6;
 
