@@ -1,4 +1,5 @@
 #include "core/isolation-layer/peripherals/spi.h"
+#include "core/isolation-layer/peripherals/gpio.h"
 // #include <Arduino.h>
 #include <SPI.h>
 
@@ -22,6 +23,9 @@ Spi::Spi(SpiSettings settings, SpiPort port)
 void Spi::initialize()
 {
     _spi.begin();
+    Gpio::init_digital(_port.MISO, GpioType::DIGITAL_OUT);
+    Gpio::init_digital(_port.MOSI, GpioType::DIGITAL_OUT);
+    Gpio::init_digital(_port.SCLK, GpioType::DIGITAL_OUT);
     _spi.setMISO(_port.MISO);
     _spi.setMOSI(_port.MOSI);
     _spi.setSCLK(_port.SCLK);

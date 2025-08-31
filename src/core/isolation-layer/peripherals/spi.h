@@ -23,6 +23,7 @@ struct SpiPort {
     uint8_t MISO;
     uint8_t MOSI;
     uint8_t SCLK;
+    uint8_t CS = 0;
 };
 
 struct SpiSettings

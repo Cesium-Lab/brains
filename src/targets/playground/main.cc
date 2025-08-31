@@ -9,7 +9,7 @@
 using namespace Cesium;
 Uart uart(115200);
 
-SpiSettings spi_settings{1'000'000, SpiBitOrder::MSB_FIRST, SpiMode::_0};
+SpiSettings spi_settings{};
 
 Spi spi{spi_settings, Spi3}; // F753
 
