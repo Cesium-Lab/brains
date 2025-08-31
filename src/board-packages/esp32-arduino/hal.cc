@@ -11,13 +11,23 @@ void hal_init() {
     // Just in case
 }
 
+// -------------------------
+// Pins
+// -------------------------
+
 namespace Pin {
 const uint8_t BUILTIN_LED{2}; // Should be LED_BUILTIN from Arduino but not sure which header
 const uint8_t IMU_CS{5}; // Should be LED_BUILTIN from Arduino but not sure which header
-
-const uint8_t SPI_SCK{18};
-const uint8_t SPI_MOSI{23};
-const uint8_t SPI_MISO{19};
 }
+
+// -------------------------
+// SPI Ports
+// -------------------------
+
+SpiPort Spi1 = SpiPort{ // Can be any pins though
+    .MISO = 19,
+    .MOSI = 23,
+    .SCLK = 18
+};
 
 } // namespace Cesium

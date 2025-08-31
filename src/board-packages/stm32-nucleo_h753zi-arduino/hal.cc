@@ -25,16 +25,14 @@ const uint8_t IMU_CS{PD14}; // D10
 
 // A bunch of random SPI stuff that has not completely been checked. (Can shave down later)
 
-SpiPort Spi0{};
-
 SpiPort Spi1 = SpiPort{ // Works
     .MISO = PA6, // D12
     // .MISO = PB4, //D25 (doesn't work for some reason)
     // .MISO = PG9,
 
     // .MOSI = PA7,
-    // .MOSI = PB5, // D11/D22
-    .MOSI = PD7, // D51
+    .MOSI = PB5, // D11/D22
+    // .MOSI = PD7, // D51
 
     // .SCLK = PA5 // D13 
     .SCLK = PB3 // D23
