@@ -61,6 +61,4 @@ class Spi {
     SpiPort _port;
 };
 
-extern SpiPort SPI0;
-
 } // namespace Cesium

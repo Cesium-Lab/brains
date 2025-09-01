@@ -1,0 +1,175 @@
+# at any time:
+
+if(LINUX)
+    add_subdirectories or something
+endif()
+
+
+# If no files,
+
+
+add_subdirectory([subdirectory])
+
+# Library
+
+external libraries just use same format as normal libraries
+
+## Topology
+
+lib
+    include
+        lib_name
+            [include_files]
+    src
+        [src_files]
+    tests
+        Inlcude style or jsut tests
+
+    exe (maybe)
+        
+
+add_library([library_name] static) 
+
+add_subdirectory(include)
+add_subdirectory(src)
+
+target_link_libraries([library_name]
+    PUBLIC
+        [lib1]
+        [lib2]
+    PRIVATE
+        [libs]
+)
+
+
+add_subdirectory(tests)
+
+
+# Include
+
+target_sources([library_name] public FILE_SET HEADERS) can also make it INTERFACE instead of PUBLIC
+add_sub...
+
+## Inside include and subdirectory
+
+target_sources([library_name]
+    PUBLIC
+        FILE_SET HEADERS
+        FILES
+            [header1]
+            [header2]
+
+)
+# Src
+
+target_sources([library_name]
+    PUBLIC
+        [source1]
+        [source2]
+)
+
+Then in the files, just include the other librarires by name, no directories (like ..) needed
+
+# Tests
+
+## Direct cmake
+
+add_executable([exe_name]
+    [src1]
+    [src2]
+)
+
+target_link_libraries([exe_name]
+    PRIVATE
+        [lib1]
+        [lib2]
+        GTest::gtest
+        GTest::gtest_main
+)
+
+add_test(
+    NAME [test_name] (as it appears in the test tab)
+    COMMAND [exe_name]
+)
+
+set_tests_properties([test_name]
+    PROPERTIES LABELS "${UNIT_TEST_LABEL}"
+    TIMEOUT [timeout_in_src]
+)
+
+# flight/exe
+add_executable([EXE_NAME])
+add_subdirectory([src])
+target link libraries..
+
+install(TARGETS [EXE_NAME]
+    RUNTIME
+        COMPONENT [flight] (mayeb directory name)
+)
+
+# Top level target_exe directory
+
+if(CMAKE_SYSTEM_PROCESSOR MATCHES/STREQUAL [THING])
+    add_sub... other things
+    return()
+endif()
+
+# codegen
+
+cmake_minimum_requirement(VERSION X...X)
+
+project([project_name] LANGAUGES CXX)
+
+enable_testing()
+
+cmake_path(SET [repo_cmake_modules] NORMALIZE ${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/modules)
+    list(APPEND CMAKE_MODULE_PATH
+    ${[repo_cmake_modules]}
+)
+
+includes...
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include([path..something..dependencies.cmake])
+
+execute_process(
+    COMMAND [command]
+    COMMAND_ERROR_IS_FATAL ANY
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIRECTORY}
+)
+
+# common solutions
+
+
+
+
+
+# cmake
+## presets
+
+- version
+- configurePresets (list)
+    - name
+    - displayName
+    - hidden: bool
+    - inherits
+    - binaryDir
+    - toolchainFile
+- testPresets (list)
+- buildPresets
+  - name
+  - configurePreset
+  - configuration (Debug, Release, Coverage...)
+
+
+## dependencies
+
+# root
+CMakePresets.json
+- version
+- include
+  - presets folder from cmake
+

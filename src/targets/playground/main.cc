@@ -2,6 +2,7 @@
 #include "core/isolation-layer/peripherals/uart.h"
 #include "core/isolation-layer/peripherals/gpio.h"
 #include "core/isolation-layer/peripherals/spi.h"
+#include "core/isolation-layer/peripherals/i2c.h"
 #include "core/isolation-layer/time.h"
 // #include <Arduino.h>
 // #include <SPI.h>
@@ -12,6 +13,8 @@ Uart uart(115200);
 SpiSettings spi_settings{};
 
 Spi spi{spi_settings, Spi1};
+
+I2C i2c{i2c1};
 
 
 int main() {
@@ -27,6 +30,11 @@ int main() {
     spi.initialize();
     Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
     Gpio::write_digital(Pin::IMU_CS, true);
+
+    // I2C initialization
+    i2c.initialize();
+    uint8_t reg[] = {0x06, 0x01};
+    i2c.write(ICM20948_ADDR, reg, 2);
 
     while(1) {
         uart.transmit("Loop\n");
@@ -46,16 +54,26 @@ int main() {
         Time::delay(25);
         Cesium::Time::delay(25);
 
-        Gpio::write_digital(Pin::IMU_CS, false);
+        // ---------- SPI ----------  
+        // Gpio::write_digital(Pin::IMU_CS, false);
 
-        spi.begin_transaction();
-        uint8_t result = spi.transfer(0x80);
-        spi.end_transaction();
+        // spi.begin_transaction();
+        // uint8_t result = spi.transfer(0x80);
+        // spi.end_transaction();
         
-        Gpio::write_digital(Pin::IMU_CS, true);
+        // Gpio::write_digital(Pin::IMU_CS, true);
 
-        uart.transmit(uart.to_char(result, false));
-        uart.transmit(uart.to_char(result, true));
+        // uart.transmit(uart.to_char(result, false));
+        // uart.transmit(uart.to_char(result, true));
+        // uart.transmit((char)'\n');
+
+        // ---------- I2C ----------
+        
+        uint8_t reg;
+        i2c.read(ICM20948_ADDR, 0, &reg, 1);
+
+        uart.transmit(uart.to_char(reg, false));
+        uart.transmit(uart.to_char(reg, true));
         uart.transmit((char)'\n');
 
         Cesium::Time::delay(1000);

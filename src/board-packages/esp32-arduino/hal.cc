@@ -30,4 +30,14 @@ SpiPort Spi1 = SpiPort{ // Can be any pins though
     .SCLK = 18
 };
 
+// -------------------------
+// I2C Ports
+// -------------------------
+
+i2cPort i2c1 = { // Can be any pins though
+    .SDA = 21,
+    .SCL = 22,
+    .frequency = 100'000
+};
+
 } // namespace Cesium

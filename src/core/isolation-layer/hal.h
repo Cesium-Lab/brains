@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "core/isolation-layer/peripherals/spi.h"
+#include "core/isolation-layer/peripherals/i2c.h"
 
 int main(); // Implemented in main.cc
 
@@ -17,11 +18,6 @@ void hal_init();
 namespace Pin {
 extern const uint8_t BUILTIN_LED;
 extern const uint8_t IMU_CS;
-
-extern const uint8_t SPI_SCK;
-extern const uint8_t SPI_MOSI;
-extern const uint8_t SPI_MISO;
-extern const uint8_t SPI_CS;
 }
 
 // -------------------------
@@ -66,6 +62,14 @@ extern SpiPort Spi5;
 Nucleo H753
 */
 extern SpiPort Spi6;
+
+// -------------------------
+// i2c
+// -------------------------
+
+const uint8_t ICM20948_ADDR = 0x69;
+
+extern i2cPort i2c1;
 
 
 } // namespace Cesium

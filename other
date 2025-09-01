@@ -1,0 +1,45 @@
+sphinx
+ninja
+inja
+
+
+os    |   | dispath, applicatin
+      |PIL|--------------------
+------|________________________   
+firmware
+-------------------------------
+board specific
+-------------------------------
+
+
+Solution
+- Send message to registered solution
+- register solution for all topic
+- register solution for given topic
+- register solution for message name
+- process messeges
+- initialize
+
+Drivers
+- init()
+- uninit()
+- is_initialized
+- random stuff
+Reverse device drivers
+
+# actual target exes
+
+- Parse CLI stuff like exe instances
+- make threads with message queues
+- Register IPs and solutions based on network topics
+- Add solutions to threads
+- 
+
+# how it works in general
+Each exe has threads with solutions
+
+# GNC
+- set_parameters(struct)
+- run
+
+G, N, C, utilities, transitions

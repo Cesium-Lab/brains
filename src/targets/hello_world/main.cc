@@ -1,95 +1,104 @@
 #include <Arduino.h>
-// #include <SPI.h>
-// #include "core/isolation-layer/peripherals/spi.h"
-#include <Adafruit_ICM20948.h>
+#include <Wire.h>
+#include "core/isolation-layer/peripherals/i2c.h"
 
-const uint8_t LED_PIN{2};
+uint32_t freq = 100'000;
 
-const uint8_t VSPI_SCK{18};
-const uint8_t VSPI_MOSI{23};
-const uint8_t VSPI_MISO{19};
-const uint8_t IMU_CS{5};
+const uint8_t IMU_ADDR = 0x69;
 
-Adafruit_ICM20948 dev;
+// bool initialize() {
+//     return Wire.begin(SDA, SCL, freq);
+// }
 
-SPISettings settings;
+// bool write(uint8_t addr, uint8_t* buff, uint8_t len, bool stop = true)
+// {
+//     // Says to ready the TX buffer
+//     Wire.beginTransmission(addr); 
+
+//     // Fills the buffer with what I want to write 
+//     Wire.write(buff, len);
+
+//     // Send buffer (with a stop bit)
+//     return (Wire.endTransmission(stop) == 0);
+// }
+
+// bool read(uint8_t addr, uint8_t reg, uint8_t* buff, uint8_t len)
+// {
+//     // Send address to write reg and return if not written
+//      if (!write(addr, &reg, 1, false)) return false;
+
+//     // Sends address with read, and reads [len] bytes
+//     uint8_t bytes_read = Wire.requestFrom(addr, len);
+
+//     if (bytes_read < len) return false;
+
+//     // Read from RX buffer
+//     for (int i = 0; i < len; i++)
+//         buff[i] = Wire.read();
+
+//     return true;
+// }
+
+
+Cesium::i2cPort port{.SDA{SDA}, .SCL{SCL}, .frequency{100'000}};
+
+Cesium::I2C i2c{port};
+
+
 
 void setup() {
     Serial.begin(115200);
     Serial.println("This is the 'Hello World' Target!");
     Serial.println("Setup.");
-    pinMode(LED_PIN, OUTPUT);
-    pinMode(IMU_CS, OUTPUT);
-    digitalWrite(IMU_CS, HIGH);
+    
+    // i2c.begin(SDA, SCL);
+    i2c.initialize();
 
-    SPI.begin(VSPI_SCK, VSPI_MISO, VSPI_MOSI);
-
-    // if (dev.begin_SPI(IMU_CS, VSPI_SCK, VSPI_MISO, VSPI_MOSI)) {
-    //     Serial.println("Failed to find ICM20948 chip");
-        // while (1) {
-        //     delay(10);
-        // }
-    // }
-    dev.begin_SPI(IMU_CS, VSPI_SCK, VSPI_MISO, VSPI_MOSI);
-
-    // delay(2000);
-    // dev.configureI2CMaster();
-    // delay(2000);
-    // dev.enableI2CMaster(true);
-    // delay(2000);
+    // Wake up device (Bank 0, PWR_MGMT_1 = 0x06)
+    i2c.write
+    uint8_t reg[] = {0x06, 0x01};
+    write(IMU_ADDR, reg, 2);
+    // writeReg(0x06, 0x01);  
+    delay(10);
+    
 }
 
-void loop() {
-    Serial.println("Loop");
-    digitalWrite(LED_PIN, HIGH);
-    delay(500);
-    digitalWrite(LED_PIN, LOW);
-    delay(500);
 
-    uint8_t buffer[] = {0,0};
+void loop()
+{
+    // int result;
 
-    digitalWrite(IMU_CS, LOW);
-    SPI.beginTransaction(settings);
-    SPI.transfer(0b10000000);
-    uint8_t result = SPI.transfer(0);
-    SPI.endTransaction();
-    digitalWrite(IMU_CS, HIGH);
+    // Wire.beginTransmission(0x69);
+    // Wire.write(0x80);
+    // Wire.endTransmission();
+    // Wire.requestFrom(0x69, 1);
+    // result = Wire.read();
 
-    Serial.println(result, HEX);
-    // sensors_event_t accel;
-    // sensors_event_t gyro;
-    // sensors_event_t mag;
-    // sensors_event_t temp;
-    // dev.getEvent(&accel, &gyro, &temp, &mag);
-
-    // Serial.print("\t\tTemperature ");
-    // Serial.print(temp.temperature);
-    // Serial.println(" deg C");
-
-    // /* Display the results (acceleration is measured in m/s^2) */
-    // Serial.print("\t\tAccel X: ");
-    // Serial.print(accel.acceleration.x);
-    // Serial.print(" \tY: ");
-    // Serial.print(accel.acceleration.y);
-    // Serial.print(" \tZ: ");
-    // Serial.print(accel.acceleration.z);
-    // Serial.println(" m/s^2 ");
-
-    // Serial.print("\t\tMag X: ");
-    // Serial.print(mag.magnetic.x);
-    // Serial.print(" \tY: ");
-    // Serial.print(mag.magnetic.y);
-    // Serial.print(" \tZ: ");
-    // Serial.print(mag.magnetic.z);
-    // Serial.println(" uT");
-
-    // /* Display the results (acceleration is measured in m/s^2) */
-    // Serial.print("\t\tGyro X: ");
-    // Serial.print(gyro.gyro.x);
-    // Serial.print(" \tY: ");
-    // Serial.print(gyro.gyro.y);
-    // Serial.print(" \tZ: ");
-    // Serial.print(gyro.gyro.z);
-    // Serial.println(" radians/s ");
+    
+    // Serial.print("Read" );
+    // Serial.println(result, HEX);
     // Serial.println();
+
+    uint8_t result[9]{};
+
+    read(0x69, 0x0, result, 1);
+    Serial.println(result[0], HEX);
+    Serial.println();
+
+    // writeThenRead(0x69, 0, result, 1);
+
+    uint8_t buf[6];
+    read(IMU_ADDR, 0x2D, buf, 6);
+
+    int16_t ax = (buf[0] << 8) | buf[1];
+    int16_t ay = (buf[2] << 8) | buf[3];
+    int16_t az = (buf[4] << 8) | buf[5];
+
+    Serial.print("Accel X: "); Serial.println(ax);
+    Serial.print("Accel Y: "); Serial.println(ay);
+    Serial.print("Accel Z: "); Serial.println(az);
+    Serial.println();
+
+    delay(500);
+
 }
