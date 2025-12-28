@@ -12,3 +12,8 @@ void Cesium::Time::delay(uint32_t millseconds)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(millseconds));
 }
+
+uint32_t Cesium::Time::get_unix_microseconds() {
+    return 0;
+}
+

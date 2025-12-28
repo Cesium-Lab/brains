@@ -14,10 +14,6 @@ char ReplyBuffer[] = "ACK";            // a string to send back
 // A UDP instance to let us send and receive packets over UDP
 EthernetUDP Udp;
 
-
-// Replace the default SPI object with one using your pins
-
-
 void setup()
 {
     Serial.begin(115200);
