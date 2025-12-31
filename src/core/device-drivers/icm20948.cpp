@@ -1,5 +1,5 @@
 #include "icm20948.h"
-
+#include "core/utilities/bits.h"
 
 namespace Cesium::Sensor {
 
@@ -77,19 +77,20 @@ icm20948_data_t Icm20948::read(uint8_t range)
     _select_user_bank(0);
 
     icm20948_data_t result;
+    uint8_t buffer[14]{};
 
-    _read_burst(REG_ACCEL_XOUT_H_BANK_0, result.bytes, 14);
+    _read_burst(REG_ACCEL_XOUT_H_BANK_0, buffer, 14);
 
     // Scale
     float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(accel_range);
-    result.accel_x / accel_scale_factor;
-    result.accel_x / accel_scale_factor;
-    result.accel_x / accel_scale_factor;
+    result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor;
+    result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor;
+    result.accel_z = bytes_to_float(buffer + 6) / accel_scale_factor;
 
     float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(gyro_range);
-    result.gyro_x / gyro_scale_factor;
-    result.gyro_x / gyro_scale_factor;
-    result.gyro_x / gyro_scale_factor;
+    result.gyro_x = bytes_to_float(buffer + 8) / gyro_scale_factor;
+    result.gyro_y = bytes_to_float(buffer + 10) / gyro_scale_factor;
+    result.gyro_z = bytes_to_float(buffer + 12) / gyro_scale_factor;
 
     return result;
 }

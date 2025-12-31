@@ -16,19 +16,13 @@
 namespace Cesium::Sensor {
 
 struct icm20948_data_t {
-    // Modeled sort of after the Adafruit method 
-    union {
-        struct {
-            float accel_x; // m/s2
-            float accel_y; // m/s2
-            float accel_z; // m/s2
-            float gyro_x; // dps
-            float gyro_y; // dps
-            float gyro_z; // dps
-            float temp; // deg C
-        };
-        uint8_t bytes[14];
-    };
+    float accel_x; // m/s2
+    float accel_y; // m/s2
+    float accel_z; // m/s2
+    float gyro_x; // dps
+    float gyro_y; // dps
+    float gyro_z; // dps
+    float temp; // deg C
 };
 
 class Icm20948 {
