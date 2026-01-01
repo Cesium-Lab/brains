@@ -22,9 +22,9 @@ class PacketWizard {
 
 public:
     PacketWizard(uint8_t vehicle_id);
-    packet_t packetize(etl::array<uint8_t, MAX_PACKET_LENGTH> data, uint16_t length);
+    packet_t packetize(etl::array<uint8_t, MAX_DATA_LENGTH> data, uint16_t length);
     static raw_packet_t encode(packet_t packet);
-    static bool decode(etl::array<uint8_t, MAX_PACKET_LENGTH> data, packet_t& packet);
+    static bool decode(etl::array<uint8_t, MAX_DATA_LENGTH> data, packet_t& packet);
     
     // static cobs_encoded_data_t add_cobs(packet_t packet);
     // static raw_packet_t remove_cobs(cobs_encoded_data_t data);
