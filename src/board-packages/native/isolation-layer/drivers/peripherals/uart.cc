@@ -1,6 +1,7 @@
 #include "core/isolation-layer/peripherals/uart.h"
 
 #include <cstdio>
+#include <iostream>
 // using namespace std;
 #include <string>
 #include <fcntl.h>
@@ -15,6 +16,13 @@ Uart::Uart(uint32_t baud_rate, int8_t uart_instance, const char* port_name)
 
 bool Uart::initialize()
 {
+
+    // If uart instance is 0, then uses cout stream (fd 1)
+    if (_uart_instance == 0 || std::string(_uart_name) == "stdout") {
+        _uart_name = "stdout";
+        return true;
+    }
+
     const char* port_name = "/dev/tty.usbserial-0001"; // or "/dev/tty.SLAB_USBtoUART" on macOS
     if (_uart_name != nullptr) {
         port_name = _uart_name;
@@ -55,6 +63,18 @@ bool Uart::initialize()
     return true;
 }
 
+uint32_t Uart::transmit(char data)
+{
+    return write(_uart_instance, &data, 1);
+}
+
+uint32_t Uart::transmit(const char* data, uint32_t len)
+{
+    return write(_uart_instance, data, len);
+}
+
+
+
 // bool Uart::available()
 // {
 //     return Serial.available();
@@ -70,16 +90,6 @@ bool Uart::initialize()
 // {
 //     return Serial.print(data);
 // }
-
-uint32_t Uart::transmit(char data)
-{
-    return write(_uart_instance, &data, 1);
-}
-
-uint32_t Uart::transmit(const char* data)
-{
-    return write(_uart_instance, data, strlen(data));
-}
 
 
 } // namespace Cesium

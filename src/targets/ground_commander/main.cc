@@ -17,18 +17,11 @@ int main() {
     uart.initialize();
     std::string message = "Hello from native PlatformIO!\n";
     cout << "starting" << endl;
-    // printf("wow\n");
+
     while(1) {
         cout << "Loop: " << endl;
-        for (char c : message) {
-            uart.transmit(c);
-            cout << ".";
-        }
-
-        cout << endl;
-        
-
-        Cesium::Time::delay_us(1000000);
+        uart.transmit_bytes((uint8_t*)message.c_str(), 30, true);
+        Cesium::Time::delay(1000);
     }
 
     return 0;
