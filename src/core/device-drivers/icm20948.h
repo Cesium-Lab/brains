@@ -32,6 +32,9 @@ class Icm20948 {
     // Registers
     static const uint8_t REG_WHO_AM_I_BANK_0 = 0x00;
     static const uint8_t REG_ACCEL_XOUT_H_BANK_0 = 0x2D;
+    
+    static const uint8_t REG_PWR_MGMT_BANK_1 = 0x06;
+    
 
     static const uint8_t REG_GYRO_CONFIG_BANK_2 = 0x01;
     static const uint8_t REG_ACCEL_CONFIG_BANK_2 = 0x14;
@@ -48,14 +51,14 @@ class Icm20948 {
     static const uint8_t GYRO_RANGE_1000_DPS = 2;
     static const uint8_t GYRO_RANGE_2000_DPS = 3;
 
-    Icm20948(Spi spi, uint8_t cs_pin);
+    Icm20948(Spi& spi, uint8_t cs_pin);
     // Icm20948(SpiPort spi_port, uint8_t cs_pin, SpiSettings settings);
 
     /* User functions */
     uint8_t chip_id();
     bool set_accel_range(uint8_t range);
     bool set_gyro_range(uint8_t range);
-    icm20948_data_t read(uint8_t range);
+    icm20948_data_t read();
 
     /* Basic functions */
     void _select_user_bank(uint8_t bank);
@@ -66,7 +69,7 @@ class Icm20948 {
 
 
   protected:
-    Spi _spi;
+    Spi& _spi;
     uint8_t _cs_pin;
     int8_t accel_range;
     int8_t gyro_range;

@@ -1,6 +1,7 @@
 #include "icm20948.h"
 #include "core/utilities/bits.h"
-
+#include "core/isolation-layer/peripherals/uart.h"
+#include <Arduino.h>
 namespace Cesium::Sensor {
 
 // Icm20948::Icm20948(SpiPort spi, uint8_t cs_pin) 
@@ -8,14 +9,20 @@ namespace Cesium::Sensor {
 //     _spi.CS = _cs_pin;
 // }
 
-Icm20948::Icm20948(Spi spi, uint8_t cs_pin) 
+Icm20948::Icm20948(Spi& spi, uint8_t cs_pin) 
     : _spi{spi}, _cs_pin{cs_pin}, accel_range{-1}, gyro_range{-1} {
     Gpio::init_digital(_cs_pin, GpioType::DIGITAL_OUT);
+    Gpio::write_digital(_cs_pin, true);
+    _select_user_bank(0);
+    _write_single(Icm20948::REG_PWR_MGMT_BANK_1, 0x01);
 }
 
 
 uint8_t Icm20948::chip_id() {
+    Serial.println("Before");
     _select_user_bank(0);
+    Serial.println("After");
+    // Uart::transmit("After");
     return _read_single(REG_WHO_AM_I_BANK_0);
 }
 
@@ -57,7 +64,7 @@ bool Icm20948::set_gyro_range(uint8_t range)
 }
 
 
-icm20948_data_t Icm20948::read(uint8_t range)
+icm20948_data_t Icm20948::read()
 {
 
     // If accel range not known already
@@ -74,6 +81,9 @@ icm20948_data_t Icm20948::read(uint8_t range)
         gyro_range = ((_read_single(REG_GYRO_CONFIG_BANK_2)) >> 1) & 0b11;
     }
 
+    Serial.println(accel_range);
+    Serial.println(gyro_range);
+
     _select_user_bank(0);
 
     icm20948_data_t result;
@@ -85,7 +95,7 @@ icm20948_data_t Icm20948::read(uint8_t range)
     float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(accel_range);
     result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor;
     result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor;
-    result.accel_z = bytes_to_float(buffer + 6) / accel_scale_factor;
+    result.accel_z = bytes_to_float(buffer + 4) / accel_scale_factor;
 
     float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(gyro_range);
     result.gyro_x = bytes_to_float(buffer + 8) / gyro_scale_factor;
@@ -101,32 +111,37 @@ icm20948_data_t Icm20948::read(uint8_t range)
 //////////////////////////////////////////////////
 
 uint8_t Icm20948::_read_single(uint8_t reg) {
+
+    uint8_t buf[2] = {(uint8_t)(reg | 0x80), 0x00};
     
-    Gpio::write_digital(_cs_pin, true);
+    Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(reg | 0x80); // read mask
-    uint8_t result = _spi.transfer(0x00);
+    _spi.transfer(buf, 2); // read mas
 
     _spi.end_transaction();
-    Gpio::write_digital(_cs_pin, false);  
+    Gpio::write_digital(_cs_pin, true);  
     
-    return result;
+    return buf[1];
 }
 
 
-void Icm20948::_read_burst(uint8_t reg, uint8_t* buffer, uint8_t len) {
+void Icm20948::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
-    Gpio::write_digital(_cs_pin, true);
+    uint8_t buf[len + 1] = {};
+    buf[0] = reg | 0x80;
+    memset(buf + 1, 0x00, len);
+
+    Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(reg | 0x80); // read mask
-    for (uint8_t i = 0; i < len; i++) {
-        buffer[i] = _spi.transfer(0x00);
-    }
+    _spi.transfer(buf, len+1); // read mask
 
     _spi.end_transaction();
-    Gpio::write_digital(_cs_pin, false);
+    Gpio::write_digital(_cs_pin, true);
+
+    memcpy(rx_buf, buf + 1, len);
+
 }
 
 //////////////////////////////////////////////////
@@ -136,20 +151,21 @@ void Icm20948::_read_burst(uint8_t reg, uint8_t* buffer, uint8_t len) {
 
 uint8_t Icm20948::_write_single(uint8_t reg, uint8_t val) {
 
-    Gpio::write_digital(_cs_pin, true);
+    uint8_t buf[2] = {(uint8_t)(reg & 0x7F), val};
+
+    Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
-
-    _spi.transfer(reg & 0x7F); // write mask
-    _spi.transfer(val);
-
+    _spi.transfer(buf, 2); // write mask
     _spi.end_transaction();
-    Gpio::write_digital(_cs_pin, false); 
+    Gpio::write_digital(_cs_pin, true);
+    
+    return 1;
 }
 
 
 void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
 
-    Gpio::write_digital(_cs_pin, true);
+    Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
     _spi.transfer(reg & 0x7F); // write mask
@@ -158,7 +174,7 @@ void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
     }
 
     _spi.end_transaction();
-    Gpio::write_digital(_cs_pin, false); 
+    Gpio::write_digital(_cs_pin, true); 
 }
 
 
