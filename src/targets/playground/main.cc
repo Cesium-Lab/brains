@@ -74,9 +74,14 @@ int main() {
         //              ICM20948
         //////////////////////////////////////////////////
 
-        uint8_t current_value = icm._read_single(Icm20948::REG_ACCEL_CONFIG_BANK_2);
-        uart.transmit("CurrVal: ");
-        uart.transmit_byte(current_value, true);
+        // uint8_t current_value = icm._read_single(Icm20948::REG_ACCEL_CONFIG_BANK_2);
+        // uart.transmit("CurrVal: ");
+        // uart.transmit_byte(current_value, true);
+
+        uint8_t icm_id = icm.chip_id();
+        uart.transmit("ID: ");
+        uart.transmit_byte(icm_id, true);
+
         Sensor::icm20948_data_t data = icm.read();
         Serial.println(data.accel_x);
         Serial.println(data.accel_y);
@@ -92,9 +97,9 @@ int main() {
         //////////////////////////////////////////////////
 
 
-        uint8_t id = adxl.chip_id();
+        uint8_t adxl_id = adxl.chip_id();
         uart.transmit("ID: ");
-        uart.transmit_byte(id, true);
+        uart.transmit_byte(adxl_id, true);
 
         Sensor::adxl375_data_t data_shock = adxl.read();
         Serial3.println(data_shock.accel_x);
