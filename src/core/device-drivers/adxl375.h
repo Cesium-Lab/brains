@@ -34,6 +34,8 @@ class Adxl375 {
     static const uint8_t REG_BW_RATE = 0x2C;
     static const uint8_t REG_POWER_CTL = 0x2D;
 
+    static constexpr float LSB_TO_G = 0.049;
+
     Adxl375(Spi spi, uint8_t cs_pin);
     void initialize();
     // Adxl375(SpiPort spi_port, uint8_t cs_pin, SpiSettings settings);

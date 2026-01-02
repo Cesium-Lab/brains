@@ -6,6 +6,8 @@
 
 namespace Cesium::Sensor {
 
+extern float gravity; // m/s2 TODO: FIX THIS IS A BANDAID
+
 Adxl375::Adxl375(Spi spi, uint8_t cs_pin) 
     : _spi{spi}, _cs_pin{cs_pin} {
     Gpio::init_digital(_cs_pin, GpioType::DIGITAL_OUT);
@@ -14,10 +16,10 @@ Adxl375::Adxl375(Spi spi, uint8_t cs_pin)
 
 void Adxl375::initialize() {
     // Enables measurement mode
-    _write_single(REG_POWER_CTL, 0x00); // standby
-    _write_single(REG_BW_RATE, 0x0D);   // 800 Hz
-    _write_single(REG_DATA_FORMAT, 0x00); // right-justified, full-res
-    _write_single(REG_POWER_CTL, 0x04); // measurement
+    // _write_single(REG_POWER_CTL, 0x00); // standby
+    // _write_single(REG_BW_RATE, 0x0D);   // 800 Hz
+    // _write_single(REG_DATA_FORMAT, 0x00); // right-justified, full-res
+    _write_single(REG_POWER_CTL, 0x08); // Enable measurement
     // Time::delay(5);           // > 1 ODR period
     // uint8_t junk[6];
     // _read_burst(REG_DATAX0, junk, 6); // throw away first frame
@@ -55,9 +57,9 @@ adxl375_data_t Adxl375::read()
     // Serial3.println(buffer[4]);
     // Serial3.println(buffer[5]);
     // Using this 
-    result.accel_x = bytes_to_float(buffer[1], buffer[0]);
-    result.accel_y = bytes_to_float(buffer[3], buffer[2]);
-    result.accel_z = bytes_to_float(buffer[5], buffer[4]);
+    result.accel_x = bytes_to_16(buffer[1], buffer[0]) * LSB_TO_G * gravity;
+    result.accel_y = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
+    result.accel_z = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
 
     return result;
 }
