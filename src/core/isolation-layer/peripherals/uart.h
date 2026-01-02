@@ -3,6 +3,7 @@
 #include <stdint.h>
 // #include <WString.h> // from Arduino
 // #include <etl/array.h>
+
 namespace Cesium {
 
 class Uart { // TODO: will extend from a common base class to swap interfaces
@@ -13,7 +14,21 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
     bool initialize();
     // uint32_t transmit(String data);
     uint32_t transmit(char data);
-    uint32_t transmit(const char* data);
+    uint32_t transmit(const char* data, uint32_t len);
+    uint32_t transmit(const char* data); // For just transmitting c strings 
+
+    uint32_t transmitln(char data);
+    uint32_t transmitln(const char* data, uint32_t len);
+    uint32_t transmitln(const char* data); // For just transmitting c strings 
+    
+    uint32_t transmit(uint8_t data);
+    uint32_t transmit(const uint8_t* data, uint32_t len);
+
+    uint32_t transmitln(uint8_t data);
+    uint32_t transmitln(const uint8_t* data, uint32_t len);
+
+    uint32_t transmit_byte(uint8_t byte, bool end_line = false); // Transmits 0xBB for the bytes
+    uint32_t transmit_bytes(uint8_t* bytes, uint32_t len, bool end_line = false); // Transmits 0xBB for the bytes
 
     bool available();
     uint8_t read();
@@ -22,18 +37,18 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
     // uint32_t transmit(etl::array<uint8_t, SIZE> arr);
 
     // Helper
-    static uint8_t to_char(uint8_t num, bool lower_half = true) {
-        uint8_t masked = lower_half 
-            ? (num & 0x0F) + '0'
-            : ( (num >> 4) & 0x0F) + '0';
+    // static uint8_t to_char(uint8_t num, bool lower_half = true) {
+    //     uint8_t masked = lower_half 
+    //         ? (num & 0x0F) + '0'
+    //         : ( (num >> 4) & 0x0F) + '0';
 
-        if (masked > '9')
-            masked += 7; // To get to letters
+    //     if (masked > '9')
+    //         masked += 7; // To get to letters
 
-        return masked;
-    }
+    //     return masked;
+    // }
 
-  private:
+  protected:
     uint32_t _baud_rate;
     int8_t _uart_instance;
     const char* _uart_name;

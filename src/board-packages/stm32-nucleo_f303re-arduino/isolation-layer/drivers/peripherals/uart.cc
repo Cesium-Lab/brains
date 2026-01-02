@@ -1,5 +1,5 @@
 #include "core/isolation-layer/peripherals/uart.h"
-
+// TODO: TEST THIS UART BECAUSE I DIDNT HAVE THE CONNECTOR
 #include <WSerial.h>
 // Uses Serial because the VCOM port is set to that
 
@@ -35,12 +35,27 @@ uint32_t Uart::transmit(char data)
     return Serial.print(data);
 }
 
+uint32_t Uart::transmit(uint8_t data)
+{
+    return Serial.print(data);
+}
+
 /**
  * C string
  */
 uint32_t Uart::transmit(const char* data)
 {
     return Serial.print(data);
+}
+
+uint32_t Uart::transmit(const char* data, uint32_t len)
+{
+    return Serial.write(data, len);
+}
+
+uint32_t Uart::transmit(const uint8_t* data, uint32_t len)
+{
+    return Serial.write(data, len);
 }
 
 } // namespace Cesium
