@@ -25,6 +25,7 @@ struct icm20948_data_t {
     float temp; // deg C
 };
 
+// Must call constructor AFTER SPI IS INITIALIZED
 class Icm20948 {
 
   public:
@@ -51,7 +52,11 @@ class Icm20948 {
     static const uint8_t GYRO_RANGE_1000_DPS = 2;
     static const uint8_t GYRO_RANGE_2000_DPS = 3;
 
+    static constexpr float TEMP_SENSITIVITY = 333.87;
+    static constexpr float ROOM_TEMP_OFFSET = 21;
+
     Icm20948(Spi& spi, uint8_t cs_pin);
+    void initialize();
     // Icm20948(SpiPort spi_port, uint8_t cs_pin, SpiSettings settings);
 
     /* User functions */
@@ -71,8 +76,8 @@ class Icm20948 {
   protected:
     Spi& _spi;
     uint8_t _cs_pin;
-    int8_t accel_range;
-    int8_t gyro_range;
+    int8_t _accel_range;
+    int8_t _gyro_range;
 
     const etl::map<uint8_t, float, 4> ACCEL_RANGE_TO_SCALE_FACTOR = {
         {ACCEL_RANGE_2_G, 16384.0},
@@ -82,10 +87,10 @@ class Icm20948 {
     };
 
     const etl::map<uint8_t, float, 4> GYRO_RANGE_TO_SCALE_FACTOR = {
-        {GYRO_RANGE_250_DPS, 16384.0},
-        {GYRO_RANGE_500_DPS, 8192.0},
-        {GYRO_RANGE_1000_DPS, 4096.0},
-        {GYRO_RANGE_2000_DPS, 2048.0},
+        {GYRO_RANGE_250_DPS, 131.0},
+        {GYRO_RANGE_500_DPS, 65.5},
+        {GYRO_RANGE_1000_DPS, 32.8},
+        {GYRO_RANGE_2000_DPS, 16.4},
     };
 };
 

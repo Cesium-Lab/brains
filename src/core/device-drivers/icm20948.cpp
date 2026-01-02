@@ -9,20 +9,22 @@ namespace Cesium::Sensor {
 //     _spi.CS = _cs_pin;
 // }
 
+float gravity = 9.80665; // m/s2
+
 Icm20948::Icm20948(Spi& spi, uint8_t cs_pin) 
-    : _spi{spi}, _cs_pin{cs_pin}, accel_range{-1}, gyro_range{-1} {
+    : _spi{spi}, _cs_pin{cs_pin}, _accel_range{-1}, _gyro_range{-1} {
     Gpio::init_digital(_cs_pin, GpioType::DIGITAL_OUT);
     Gpio::write_digital(_cs_pin, true);
+}
+
+void Icm20948::initialize() {
     _select_user_bank(0);
     _write_single(Icm20948::REG_PWR_MGMT_BANK_1, 0x01);
 }
 
 
 uint8_t Icm20948::chip_id() {
-    Serial.println("Before");
     _select_user_bank(0);
-    Serial.println("After");
-    // Uart::transmit("After");
     return _read_single(REG_WHO_AM_I_BANK_0);
 }
 
@@ -41,6 +43,7 @@ bool Icm20948::set_accel_range(uint8_t range)
         return false;
     }
 
+    _accel_range = range;
     return true;
 }
 
@@ -60,6 +63,7 @@ bool Icm20948::set_gyro_range(uint8_t range)
         return false;
     }
 
+    _gyro_range = range;
     return true;
 }
 
@@ -68,21 +72,18 @@ icm20948_data_t Icm20948::read()
 {
 
     // If accel range not known already
-    if (accel_range == -1) {
+    if (_accel_range == -1) {
         _select_user_bank(2);
         // 0b00000110 
-        accel_range = ((_read_single(REG_ACCEL_CONFIG_BANK_2)) >> 1) & 0b11;
+        _accel_range = ((_read_single(REG_ACCEL_CONFIG_BANK_2)) >> 1) & 0b11;
     }
     
     // If gyro range not known already
-    if (gyro_range == -1) {
+    if (_gyro_range == -1) {
         _select_user_bank(2);
         // 0b00000110 
-        gyro_range = ((_read_single(REG_GYRO_CONFIG_BANK_2)) >> 1) & 0b11;
+        _gyro_range = ((_read_single(REG_GYRO_CONFIG_BANK_2)) >> 1) & 0b11;
     }
-
-    Serial.println(accel_range);
-    Serial.println(gyro_range);
 
     _select_user_bank(0);
 
@@ -92,15 +93,18 @@ icm20948_data_t Icm20948::read()
     _read_burst(REG_ACCEL_XOUT_H_BANK_0, buffer, 14);
 
     // Scale
-    float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(accel_range);
-    result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor;
-    result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor;
-    result.accel_z = bytes_to_float(buffer + 4) / accel_scale_factor;
+    float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(_accel_range);
+    result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor * gravity;
+    result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor * gravity;
+    result.accel_z = bytes_to_float(buffer + 4) / accel_scale_factor * gravity;
 
-    float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(gyro_range);
-    result.gyro_x = bytes_to_float(buffer + 8) / gyro_scale_factor;
-    result.gyro_y = bytes_to_float(buffer + 10) / gyro_scale_factor;
-    result.gyro_z = bytes_to_float(buffer + 12) / gyro_scale_factor;
+    float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(_gyro_range);
+    result.gyro_x = bytes_to_float(buffer + 6) / gyro_scale_factor;
+    result.gyro_y = bytes_to_float(buffer + 8) / gyro_scale_factor;
+    result.gyro_z = bytes_to_float(buffer + 10) / gyro_scale_factor;
+
+    // TEMP_degC = ((TEMP_OUT – RoomTemp_Offset)/Temp_Sensitivity) + 21degC
+    result.temp = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
 
     return result;
 }
