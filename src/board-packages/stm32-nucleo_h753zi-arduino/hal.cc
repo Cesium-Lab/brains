@@ -36,8 +36,8 @@ SpiPort Spi1 = SpiPort{ // Works
     .MOSI = PB5, // D11/D22
     // .MOSI = PD7, // D51
 
-    // .SCLK = PA5 // D13 
-    .SCLK = PB3 // D23
+    .SCLK = PA5 // D13 
+    // .SCLK = PB3 // D23
     // .SCLK = PG11
 
     // .CS = PA4 // D24

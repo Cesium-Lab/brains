@@ -1,6 +1,7 @@
 #include "core/device-drivers/lis2mdl.h"
+#include "core/isolation-layer/time.h"
 #include "core/utilities/bits.h"
-
+// #include <Arduino.h>
 #include <cstring> // memset
 
 namespace Cesium::Sensor {
@@ -8,38 +9,23 @@ namespace Cesium::Sensor {
 Lis2Mdl::Lis2Mdl(Spi spi, uint8_t cs_pin) 
     : _spi{spi}, _cs_pin{cs_pin} {
     Gpio::init_digital(_cs_pin, GpioType::DIGITAL_OUT);
+    Gpio::write_digital(_cs_pin, true);
 }
 
 void Lis2Mdl::initialize() {
+    _write_single(CFG_REG_A, 0b00100000); // soft reset = 1
+    Time::delay(10);
 
+    _write_single(CFG_REG_C, 0b00110100); // Disable I2C, enable BDU, enable 4-wire SPI (by default is only 3-wire)
+    _write_single(CFG_REG_A, 0b10001100); // Temperature compensation, 100 Hz, continuous operation
 
-    // Enables measurement mode
-    _write_single(CFG_REG_C, 0b100); // standby
-    // _write_single(REG_BW_RATE, 0x0D);   // 800 Hz
-    // _write_single(REG_DATA_FORMAT, 0x00); // right-justified, full-res
-    // _write_single(REG_POWER_CTL, 0x04); // measurement
-    // Time::delay(5);           // > 1 ODR period
-    // uint8_t junk[6];
-    // _read_burst(REG_DATAX0, junk, 6); // throw away first frame
-
-    // _write_single(REG_POWER_CTL, 0x00); // standby
-    // Time::delay(10);
-
-    // _write_single(REG_DATA_FORMAT, 0x00);
-    // _write_single(REG_BW_RATE, 0x0A);   // 100 Hz (slow but safe)
-
-    // _write_single(REG_POWER_CTL, 0x08); // RESET bit
-    // Time::delay(10);
-
-    // _write_single(REG_POWER_CTL, 0x04); // measure
-    // Time::delay(20);
 }
 
 uint8_t Lis2Mdl::chip_id() {
     return _read_single(REG_WHO_AM_I);
 }
 
-lis2mdl_data_t Lis2Mdl::read(uint8_t range)
+lis2mdl_data_t Lis2Mdl::read()
 {
 
     lis2mdl_data_t result;
@@ -48,10 +34,10 @@ lis2mdl_data_t Lis2Mdl::read(uint8_t range)
     _read_burst(REG_OUTX_L_REG, buffer, 6);
 
     // Using this 
-    result.mag_x = bytes_to_float(buffer[1], buffer[0]) * MAG_LSB_TO_MGAUSS;
-    result.mag_y = bytes_to_float(buffer[3], buffer[2]) * MAG_LSB_TO_MGAUSS;
-    result.mag_z = bytes_to_float(buffer[5], buffer[4]) * MAG_LSB_TO_MGAUSS;
-    result.temp = bytes_to_float(buffer[7], buffer[6]) / TEMP_DEG_C_TO_LSB;
+    result.mag_x = bytes_to_float(buffer[1], buffer[0]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    result.mag_y = bytes_to_float(buffer[3], buffer[2]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    result.mag_z = bytes_to_float(buffer[5], buffer[4]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    // result.temp = bytes_to_float(buffer[7], buffer[6]) / TEMP_DEG_C_TO_LSB; // TODO
 
     return result;
 }

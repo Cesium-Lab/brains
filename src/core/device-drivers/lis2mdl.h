@@ -29,10 +29,12 @@ class Lis2Mdl {
     static const uint8_t REG_WHO_AM_I = 0x4F;
     static const uint8_t DEVICE_ID = 0b01000000;
 
-    static const uint8_t REG_OUTX_L_REG = 0x32;
+    static const uint8_t CFG_REG_A = 0x60;
+    static const uint8_t REG_OUTX_L_REG = 0x68;
     static const uint8_t CFG_REG_C = 0x62;
 
     static constexpr float MAG_LSB_TO_MGAUSS = 1.5;
+    static constexpr float MGAUSS_TO_uT = 0.1;
     static constexpr float TEMP_DEG_C_TO_LSB = 8;
 
     // I2C
@@ -43,7 +45,7 @@ class Lis2Mdl {
 
     /* User functions */
     uint8_t chip_id();
-    lis2mdl_data_t read(uint8_t range);
+    lis2mdl_data_t read();
 
     /* Basic functions TODO: put in spi driver? */
     uint8_t _read_single(uint8_t reg);
