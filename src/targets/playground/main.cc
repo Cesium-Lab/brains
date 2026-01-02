@@ -23,10 +23,10 @@ int main() {
     uart.transmit("Setup\n");
     
     // SPI initialization
-    spi.initialize();
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
     Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
     Gpio::write_digital(Pin::IMU_CS, true);
+    spi.initialize();
 
     while(1) {
         uart.transmit("Loop\n");

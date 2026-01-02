@@ -29,6 +29,7 @@ SpiPort Spi1 = SpiPort{
     .MISO = PB4, // D12
     .MOSI = PB5, // D11
     .SCLK = PB3 // D13
+    // .SCLK = PA5 // A21
 };
 
 } // namespace Cesium
