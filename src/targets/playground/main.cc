@@ -4,6 +4,7 @@
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/device-drivers/icm20948.h"
 #include "core/device-drivers/adxl375.h"
+#include "core/device-drivers/lis2mdl.h"
 #include "core/isolation-layer/time.h"
 #include <Arduino.h>
 // #include <SPI.h>
@@ -31,16 +32,21 @@ int main() {
     /* SPI */
     SpiSettings spi_settings_imu{._spi_mode=SpiMode::_0};
     SpiSettings spi_settings_shock{._spi_mode=SpiMode::_3};
+    SpiSettings spi_settings_mag{._clock_hz=5'000'000, ._spi_mode=SpiMode::_3};
     Spi spi_imu{spi_settings_imu, Spi1};
     Spi spi_shock{spi_settings_shock, Spi1};
+    Spi spi_mag{spi_settings_mag, Spi1};
 
     Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
     Gpio::write_digital(Pin::IMU_CS, true);
     Gpio::init_digital(Pin::SHOCK_CS, GpioType::DIGITAL_OUT);
     Gpio::write_digital(Pin::SHOCK_CS, true);
+    Gpio::init_digital(Pin::MAG_CS, GpioType::DIGITAL_OUT);
+    Gpio::write_digital(Pin::MAG_CS, true);
 
     spi_imu.initialize();
     spi_shock.initialize();
+    spi_mag.initialize();
 
     /* ICM20948 */
 
@@ -52,8 +58,11 @@ int main() {
     /* ADXL375 */
     Adxl375 adxl(spi_shock, Pin::SHOCK_CS);
     adxl.initialize();
-    // delay(1000);
-    // Sensor init
+
+
+    /* ADXL375 */
+    Lis2Mdl lis(spi_mag, Pin::MAG_CS);
+    lis.initialize();
 
     while(1) {
         uart.transmit("Loop\n");
@@ -96,7 +105,6 @@ int main() {
         //              ADXL375
         //////////////////////////////////////////////////
 
-
         uint8_t adxl_id = adxl.chip_id();
         uart.transmit("ID: ");
         uart.transmit_byte(adxl_id, true);
@@ -105,6 +113,14 @@ int main() {
         Serial3.println(data_shock.accel_x);
         Serial3.println(data_shock.accel_y);
         Serial3.println(data_shock.accel_z);
+
+        //////////////////////////////////////////////////
+        //              LIS2MDL
+        //////////////////////////////////////////////////
+        
+        uint8_t id = lis.chip_id();
+        uart.transmit("ID: ");
+        uart.transmit_byte(id, true);
 
         Time::delay(1000);
     }

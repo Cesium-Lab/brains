@@ -25,17 +25,21 @@ class Lis2Mdl {
 
   public:
 
-    // Registers
+    /* Registers */
     static const uint8_t REG_WHO_AM_I = 0x4F;
     static const uint8_t DEVICE_ID = 0b01000000;
 
     static const uint8_t REG_OUTX_L_REG = 0x32;
+    static const uint8_t CFG_REG_C = 0x62;
 
-    static const float MAG_LSB_TO_MGAUSS = 1.5;
-    static const float TEMP_DEG_C_TO_LSB = 8;
+    static constexpr float MAG_LSB_TO_MGAUSS = 1.5;
+    static constexpr float TEMP_DEG_C_TO_LSB = 8;
+
+    // I2C
+    static const uint8_t I2C_ADDR = 0x1E;
 
     Lis2Mdl(Spi spi, uint8_t cs_pin);
-    // Adxl375(SpiPort spi_port, uint8_t cs_pin, SpiSettings settings);
+    void initialize();
 
     /* User functions */
     uint8_t chip_id();
@@ -43,9 +47,9 @@ class Lis2Mdl {
 
     /* Basic functions TODO: put in spi driver? */
     uint8_t _read_single(uint8_t reg);
-    void _read_burst(uint8_t reg, uint8_t* buffer, uint8_t len);
+    void _read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len);
     uint8_t _write_single(uint8_t reg, uint8_t val);
-    void _write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len);
+    void _write_burst(uint8_t reg, const uint8_t* tx_buf, uint8_t len);
 
 
   protected:
