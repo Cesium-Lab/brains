@@ -56,7 +56,7 @@ class Spi {
     /* MSB/LSB agnostic */
     void transfer(uint8_t* input, uint8_t size);
 
-  private:
+  protected:
     SpiSettings _settings;
     SpiPort _port;
 };

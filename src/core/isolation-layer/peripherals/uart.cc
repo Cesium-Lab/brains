@@ -4,19 +4,19 @@ namespace Cesium {
 
 
 uint32_t Uart::transmitln(char data) {
-    return transmit(data) + transmit('\n');
+    return transmit(data) + transmit("\n");
 }
 
 uint32_t Uart::transmitln(uint8_t data) {
-    return transmit(data) + transmit('\n');
+    return transmit(data) + transmit("\n");
 }
 
 uint32_t Uart::transmitln(const char* data, uint32_t len) {
-    return transmit(data, len) + transmit('\n');
+    return transmit(data, len) + transmit("\n");
 }
 
 uint32_t Uart::transmitln(const uint8_t* data, uint32_t len) {
-    return transmit(data, len) + transmit('\n');
+    return transmit(data, len) + transmit("\n");
 }
 
 uint32_t Uart::transmit_bytes(uint8_t *bytes, uint32_t len, bool end_line) {
@@ -38,7 +38,7 @@ uint32_t Uart::transmit_bytes(uint8_t *bytes, uint32_t len, bool end_line) {
     
     
     if (end_line) {
-        transmit('\n');
+        transmit("\n");
     }
 
     return 0;

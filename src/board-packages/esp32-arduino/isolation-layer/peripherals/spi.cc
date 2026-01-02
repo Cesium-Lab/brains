@@ -43,7 +43,7 @@ uint8_t Spi::transfer(uint8_t input)
     uint8_t output;
 
     _spi.transfer(input);
-    output = _spi.transfer({});
+    output = _spi.transfer(0);
 
     return output;
 }
