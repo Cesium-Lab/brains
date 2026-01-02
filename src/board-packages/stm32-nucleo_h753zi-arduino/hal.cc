@@ -17,6 +17,7 @@ namespace Pin {
 const uint8_t BUILTIN_LED{PB0};
 const uint8_t IMU_CS{PD14}; // D10
 const uint8_t SHOCK_CS{PD15}; // D9
+const uint8_t MAG_CS{PF3}; // D8
 }
 
 
@@ -35,8 +36,8 @@ SpiPort Spi1 = SpiPort{ // Works
     .MOSI = PB5, // D11/D22
     // .MOSI = PD7, // D51
 
-    // .SCLK = PA5 // D13 
-    .SCLK = PB3 // D23
+    .SCLK = PA5 // D13 
+    // .SCLK = PB3 // D23
     // .SCLK = PG11
 
     // .CS = PA4 // D24

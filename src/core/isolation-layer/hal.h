@@ -18,6 +18,7 @@ namespace Pin {
 extern const uint8_t BUILTIN_LED;
 extern const uint8_t IMU_CS;
 extern const uint8_t SHOCK_CS;
+extern const uint8_t MAG_CS;
 
 extern const uint8_t SPI_SCK;
 extern const uint8_t SPI_MOSI;

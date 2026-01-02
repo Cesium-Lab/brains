@@ -15,6 +15,10 @@ uint32_t Uart::transmitln(const char* data, uint32_t len) {
     return transmit(data, len) + transmit("\n");
 }
 
+uint32_t Uart::transmitln(const char* data) {
+    return transmit(data) + transmit("\n");
+}
+
 uint32_t Uart::transmitln(const uint8_t* data, uint32_t len) {
     return transmit(data, len) + transmit("\n");
 }
