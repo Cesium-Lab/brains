@@ -29,21 +29,29 @@ int main() {
     uart.transmit("Setup\n");
 
     /* SPI */
-    SpiSettings spi_settings{};
-    Spi spi{spi_settings, Spi1};
+    // SpiSettings spi_settings_imu{._spi_mode=SpiMode::_0};
+    SpiSettings spi_settings_shock{._spi_mode=SpiMode::_3};
+    // Spi spi_imu{spi_settings_imu, Spi1};
+    Spi spi_shock{spi_settings_shock, Spi1};
+
     Gpio::init_digital(Pin::IMU_CS, GpioType::DIGITAL_OUT);
     Gpio::write_digital(Pin::IMU_CS, true);
-    spi.initialize();
+    Gpio::init_digital(Pin::SHOCK_CS, GpioType::DIGITAL_OUT);
+    Gpio::write_digital(Pin::SHOCK_CS, true);
+
+    // spi_imu.initialize();
+    spi_shock.initialize();
 
     /* ICM20948 */
 
-    Icm20948 icm(spi, Pin::IMU_CS);
-    icm.initialize();
-    icm.set_accel_range(Icm20948::ACCEL_RANGE_4_G);
-    icm.set_gyro_range(Icm20948::GYRO_RANGE_2000_DPS);
+    // Icm20948 icm(spi_imu, Pin::IMU_CS);
+    // icm.initialize();
+    // icm.set_accel_range(Icm20948::ACCEL_RANGE_4_G);
+    // icm.set_gyro_range(Icm20948::GYRO_RANGE_2000_DPS);
 
     /* ADXL375 */
-    Adxl375 adxl(spi, Pin::SHOCK_CS);
+    Adxl375 adxl(spi_shock, Pin::SHOCK_CS);
+    adxl.initialize();
     // delay(1000);
     // Sensor init
 
@@ -63,13 +71,17 @@ int main() {
         Time::delay(25);
 
         uint8_t id = adxl.chip_id();
+        uart.transmit("ID: ");
+        uart.transmit_byte(id, true);
+
+        //////////////////////////////////////////////////
+        //              ICM20948
+        //////////////////////////////////////////////////
 
         // uint8_t current_value = icm._read_single(Icm20948::REG_ACCEL_CONFIG_BANK_2);
         // uart.transmit("CurrVal: ");
         // uart.transmit_byte(current_value, true);
         // Sensor::icm20948_data_t data = icm.read();
-        // uart.transmit("ID: ");
-        // uart.transmit_byte(id, true);
         // Serial.println(data.accel_x);
         // Serial.println(data.accel_y);
         // Serial.println(data.accel_z);
@@ -79,7 +91,21 @@ int main() {
         // Serial.println(data.temp);
         // uart.transmit_bytes((uint8_t*)&data.accel_x, 4, true);
 
-        Cesium::Time::delay(100);
+        //////////////////////////////////////////////////
+        //              ADXL375
+        //////////////////////////////////////////////////
+
+
+        uint8_t val = adxl._read_single(Adxl375::REG_POWER_CTL);
+        uart.transmit("CurrVal: ");
+        uart.transmit_byte(val, true);
+
+        Sensor::adxl375_data_t data = adxl.read();
+        Serial3.println(data.accel_x);
+        Serial3.println(data.accel_y);
+        Serial3.println(data.accel_z);
+
+        Time::delay(1000);
     }
 
     return 0;

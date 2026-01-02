@@ -55,6 +55,7 @@ class Spi {
 
     /* MSB/LSB agnostic */
     void transfer(uint8_t* input, uint8_t size);
+    void transfer(uint8_t* tx, uint8_t* rx, uint8_t size);
 
   protected:
     SpiSettings _settings;

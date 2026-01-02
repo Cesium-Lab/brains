@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <etl/map.h>
+#include <cstring> // memset
 
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/peripherals/gpio.h"
