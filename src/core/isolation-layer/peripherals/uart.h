@@ -15,12 +15,20 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
     // uint32_t transmit(String data);
     uint32_t transmit(char data);
     uint32_t transmit(const char* data, uint32_t len);
+    uint32_t transmit(const char* data); // For just transmitting c strings 
 
     uint32_t transmitln(char data);
     uint32_t transmitln(const char* data, uint32_t len);
+    uint32_t transmitln(const char* data); // For just transmitting c strings 
+    
+    uint32_t transmit(uint8_t data);
+    uint32_t transmit(const uint8_t* data, uint32_t len);
 
-    uint32_t transmit_byte(uint8_t byte, bool end_line = false);
-    uint32_t transmit_bytes(uint8_t* bytes, uint32_t len, bool end_line = false);
+    uint32_t transmitln(uint8_t data);
+    uint32_t transmitln(const uint8_t* data, uint32_t len);
+
+    uint32_t transmit_byte(uint8_t byte, bool end_line = false); // Transmits 0xBB for the bytes
+    uint32_t transmit_bytes(uint8_t* bytes, uint32_t len, bool end_line = false); // Transmits 0xBB for the bytes
 
     bool available();
     uint8_t read();

@@ -36,7 +36,7 @@ int main() {
             Gpio::write_digital(Pin::BUILTIN_LED, true);
             uint8_t c = uart.read();
             uart.transmit("Received ");
-            uart.transmitln(c);
+            uart.transmit_byte(c, true);
             Time::delay(25);
             Gpio::write_digital(Pin::BUILTIN_LED, false);
         }
