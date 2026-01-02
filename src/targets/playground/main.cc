@@ -62,7 +62,7 @@ int main() {
     lis.initialize();
 
     while(1) {
-        uart.transmit("Loop\n");
+        uart.transmit("----- LOOP -----\n");
 
         if (uart.available())
         {
@@ -79,7 +79,7 @@ int main() {
         //////////////////////////////////////////////////
         //              ICM20948
         //////////////////////////////////////////////////
-
+        uart.transmit("ICM20948:\n");
         // uint8_t current_value = icm._read_single(Icm20948::REG_ACCEL_CONFIG_BANK_2);
         // uart.transmit("CurrVal: ");
         // uart.transmit_byte(current_value, true);
@@ -101,7 +101,7 @@ int main() {
         //////////////////////////////////////////////////
         //              ADXL375
         //////////////////////////////////////////////////
-
+        uart.transmit("ADXL375:\n");
         uint8_t adxl_id = adxl.chip_id();
         uart.transmit("ID: ");
         uart.transmit_byte(adxl_id, true);
@@ -114,12 +114,13 @@ int main() {
         //////////////////////////////////////////////////
         //              LIS2MDL
         //////////////////////////////////////////////////
+        uart.transmit("LIS2MDL:\n");
         
         uint8_t id = lis.chip_id();
         uart.transmit("ID: ");
         uart.transmit_byte(id, true); // Should be 0x40
 
-        Sensor::lis2mdl_data_t data = lis.read();
+        Sensor::lis2mdl_data_t mag_data = lis.read();
         // uart.transmit_bytes((uint8_t*)(&data.mag_x), 4, true);
         // uart.transmit("X: ");
         // std::string x_str = std::to_string(data.mag_x);
@@ -133,9 +134,9 @@ int main() {
         // uart.transmit("Z: ");
         // uart.transmitln(std::to_string(data.mag_z).c_str());
         // uart.transmitln("");
-        Serial3.println(data.mag_x);
-        Serial3.println(data.mag_y);
-        Serial3.println(data.mag_z);
+        Serial3.println(mag_data.mag_x);
+        Serial3.println(mag_data.mag_y);
+        Serial3.println(mag_data.mag_z);
         // Serial3.println(data.temp);
 
         Time::delay(1000);
