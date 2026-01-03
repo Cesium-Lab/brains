@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <etl/span.h>
 // #include <WString.h> // from Arduino
 // #include <etl/array.h>
 
@@ -48,6 +49,14 @@ class Uart { // TODO: will extend from a common base class to swap interfaces
 
     uint32_t transmit_floats(const float* data, uint32_t len, bool end_line = false, uint8_t decimal_places = 2);
 
+    //////////////////////////////////////////////////
+    //              etl
+    //////////////////////////////////////////////////
+
+    void transmit(etl::span<const uint8_t> bytes);
+    void transmitln(etl::span<const uint8_t> bytes);
+
+    uint32_t transmit_bytes(etl::span<const uint8_t> bytes, bool end_line = false); // Transmits 0xBB for the bytes
 
     //////////////////////////////////////////////////
     //              Extras

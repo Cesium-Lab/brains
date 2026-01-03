@@ -23,7 +23,7 @@ raw_packet_t PacketWizard::packetize(const packet_t& packet)
     raw_packet.data[3] = (packet.timestamp_ms) & 0xFF;
 
     // Vehicle ID (6 bits) and Sequence number (2 bits)
-    raw_packet.data[4] = ( (packet.vehicle_id & 0b111111) << 2) | (packet.sequence_number & 0b11);
+    raw_packet.data[4] = ( (packet.vehicle_id & 0b111111) << 2) | ((uint8_t)packet.seq & 0b11);
 
     // Length (2)
     raw_packet.data[5] = (packet.length >> 8) & 0xFF;
@@ -57,7 +57,7 @@ bool PacketWizard::decode(const raw_packet_t& raw_packet, packet_t& packet)
         (data[4] >> 2) & 0b00111111
     );
     
-    packet.sequence_number = (
+    packet.seq = (SEQ)(
         data[4] & 0x00000011
     );
 

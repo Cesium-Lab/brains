@@ -36,7 +36,8 @@ uint32_t Uart::transmitln(const uint8_t* data, uint32_t len) {
 }
 
 uint32_t Uart::transmit_bytes(uint8_t *bytes, uint32_t len, bool end_line) {
-    char hex_byte[5] = {'0', 'x', 0, 0, ' '};
+    char hex_byte[4] = {'0', 'x', 0, 0};
+    uint32_t count = 0;
 
     for (uint32_t i = 0; i < len; i++) {
         uint8_t lower = (bytes[i] & 0x0F) + '0';
@@ -49,15 +50,19 @@ uint32_t Uart::transmit_bytes(uint8_t *bytes, uint32_t len, bool end_line) {
         hex_byte[2] = upper;
         hex_byte[3] = lower;
 
-        transmit(hex_byte, 5);
+        count += transmit(hex_byte, 4);
+
+        if (i < len-1) {
+            count += transmit(" ");
+        }
     }
     
     
     if (end_line) {
-        transmit("\n");
+        count += transmit("\n");
     }
 
-    return 0;
+    return count;
 }
 
 uint32_t Uart::transmit_byte(uint8_t byte, bool end_line)
@@ -71,18 +76,15 @@ uint32_t Uart::transmit_byte(uint8_t byte, bool end_line)
 
 uint32_t Uart::transmit(float data, uint8_t decimal_places) {
 
-    memset(float_buf, FLOAT_BUF_LEN, 0);
+    memset(float_buf, 0, FLOAT_BUF_LEN);
 
 
     // Format float into buffer
-    snprintf(float_buf, sizeof(float_buf), "%.*f", decimal_places, data); // 3 decimal places
+    snprintf(float_buf, FLOAT_BUF_LEN, "%.*f", decimal_places, data); // 3 decimal places
 
     return transmit(float_buf, strlen(float_buf));
 
 }
-// uint32_t Uart::transmit_floats(const float* data, uint32_t len, uint8_t decimal_places) {
-//     transmit(data, len);
-// }
 
 uint32_t Uart::transmitln(float data, uint8_t decimal_places) {
     return transmit(data, decimal_places) + transmit("\n");
@@ -94,7 +96,7 @@ uint32_t Uart::transmit_floats(const float* data, uint32_t len,
     uint32_t count = transmit("[");
 
     for (uint32_t i = 0; i < len; i++) {
-        count += transmit(data[i]);
+        count += transmit(data[i], decimal_places);
 
         if (i < len-1) {
             count += transmit(", ");
@@ -108,5 +110,34 @@ uint32_t Uart::transmit_floats(const float* data, uint32_t len,
 
     return count;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                              etl
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Uart::transmit(etl::span<const uint8_t> bytes) {
+    transmit(bytes.data(), bytes.size());
+}
+
+void Uart::transmitln(etl::span<const uint8_t> bytes) {
+    transmitln(bytes.data(), bytes.size());
+}
+
+uint32_t Uart::transmit_bytes(etl::span<const uint8_t> bytes, bool end_line) {
+    uint32_t count = transmit("[");
+
+    for (auto byte_ptr = bytes.begin(); byte_ptr != bytes.end(); byte_ptr++) {
+        count += transmit_byte(*byte_ptr);
+        count += transmit(" ");
+    }
+
+    if (end_line)
+        count += transmit("]\n");
+    else
+        count += transmit("]");
+
+    return count;
+}
+
 
 } // namespace Cesium

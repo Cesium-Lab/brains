@@ -1,15 +1,3 @@
-/*
-Session layer adds:
-- timestamp
-- Vehicle ID (VID)
-- sequence number
-
-
-Deals with:
-- ACKs
-- COBS?
-
-*/
 #pragma once
 
 #include <cstdint>

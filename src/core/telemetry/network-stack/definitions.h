@@ -25,7 +25,7 @@ struct __attribute__((packed)) packet_t {
     
     uint32_t timestamp_ms; // Decoded millisecond timestamp
     uint8_t vehicle_id; // Where message came from
-    uint8_t sequence_number; // 6-bit counter: 0-64 (0x3F)
+    SEQ seq; // 6-bit counter: 0-64 (0x3F)
 };
 
 // Raw packet bytes
