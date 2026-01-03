@@ -94,17 +94,17 @@ icm20948_data_t Icm20948::read()
 
     // Scale
     float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(_accel_range);
-    result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor * gravity;
-    result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor * gravity;
-    result.accel_z = bytes_to_float(buffer + 4) / accel_scale_factor * gravity;
+    result.accel_m_s2[0] = bytes_to_float(buffer + 0) / accel_scale_factor * gravity;
+    result.accel_m_s2[1] = bytes_to_float(buffer + 2) / accel_scale_factor * gravity;
+    result.accel_m_s2[2] = bytes_to_float(buffer + 4) / accel_scale_factor * gravity;
 
     float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(_gyro_range);
-    result.gyro_x = bytes_to_float(buffer + 6) / gyro_scale_factor;
-    result.gyro_y = bytes_to_float(buffer + 8) / gyro_scale_factor;
-    result.gyro_z = bytes_to_float(buffer + 10) / gyro_scale_factor;
+    result.gyro_dps[0] = bytes_to_float(buffer + 6) / gyro_scale_factor;
+    result.gyro_dps[1] = bytes_to_float(buffer + 8) / gyro_scale_factor;
+    result.gyro_dps[2] = bytes_to_float(buffer + 10) / gyro_scale_factor;
 
     // TEMP_degC = ((TEMP_OUT – RoomTemp_Offset)/Temp_Sensitivity) + 21degC
-    result.temp = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
+    result.temp_C = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
 
     return result;
 }

@@ -50,16 +50,10 @@ adxl375_data_t Adxl375::read()
 
     _read_burst(REG_DATAX0, buffer, 6);
 
-    // Serial3.println(buffer[0]);
-    // Serial3.println(buffer[1]);
-    // Serial3.println(buffer[2]);
-    // Serial3.println(buffer[3]);
-    // Serial3.println(buffer[4]);
-    // Serial3.println(buffer[5]);
     // Using this 
-    result.accel_x = bytes_to_16(buffer[1], buffer[0]) * LSB_TO_G * gravity;
-    result.accel_y = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
-    result.accel_z = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
+    result.accel_m_s2[0] = bytes_to_16(buffer[1], buffer[0]) * LSB_TO_G * gravity;
+    result.accel_m_s2[1] = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
+    result.accel_m_s2[2] = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
 
     return result;
 }

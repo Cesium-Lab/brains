@@ -6,6 +6,7 @@
 
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/peripherals/gpio.h"
+#include "core/isolation-layer/Eigen.h"
 
 /**
  * TODO:
@@ -17,13 +18,9 @@
 namespace Cesium::Sensor {
 
 struct icm20948_data_t {
-    float accel_x; // m/s2
-    float accel_y; // m/s2
-    float accel_z; // m/s2
-    float gyro_x; // dps
-    float gyro_y; // dps
-    float gyro_z; // dps
-    float temp; // deg C
+    Cesium::Vector3f accel_m_s2;
+    Cesium::Vector3f gyro_dps;
+    float temp_C; // deg C
 };
 
 // Must call constructor AFTER SPI IS INITIALIZED

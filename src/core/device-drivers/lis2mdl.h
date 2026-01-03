@@ -4,6 +4,7 @@
 
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/peripherals/gpio.h"
+#include "core/isolation-layer/Eigen.h"
 
 /**
  * TODO:
@@ -16,10 +17,15 @@
 
 namespace Cesium::Sensor {
 
+// struct lis2mdl_data_t {
+//     float mag_x; // mGauss
+//     float mag_y; // mGauss
+//     float mag_z; // mGauss
+//     float temp; // deg C 
+// };
+
 struct lis2mdl_data_t {
-    float mag_x; // mGauss
-    float mag_y; // mGauss
-    float mag_z; // mGauss
+    Cesium::Vector3f B_field_uT;
     float temp; // deg C 
 };
 

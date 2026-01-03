@@ -4,6 +4,7 @@
 
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/peripherals/gpio.h"
+#include "core/isolation-layer/Eigen.h"
 
 /**
  * TODO:
@@ -14,11 +15,16 @@
 
 namespace Cesium::Sensor {
 
+// struct adxl375_data_t {
+//     float accel_x; // m/s2
+//     float accel_y; // m/s2
+//     float accel_z; // m/s2
+// };
+
 struct adxl375_data_t {
-    float accel_x; // m/s2
-    float accel_y; // m/s2
-    float accel_z; // m/s2
+    Cesium::Vector3f accel_m_s2;
 };
+
 
 // Must call constructor AFTER SPI IS INITIALIZED
 class Adxl375 {

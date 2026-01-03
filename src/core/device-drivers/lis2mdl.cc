@@ -36,9 +36,9 @@ lis2mdl_data_t Lis2Mdl::read()
     _read_burst(REG_OUTX_L_REG, buffer, 6);
 
     // Using this 
-    result.mag_x = bytes_to_float(buffer[1], buffer[0]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
-    result.mag_y = bytes_to_float(buffer[3], buffer[2]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
-    result.mag_z = bytes_to_float(buffer[5], buffer[4]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    result.B_field_uT[0] = bytes_to_float(buffer[1], buffer[0]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    result.B_field_uT[1] = bytes_to_float(buffer[3], buffer[2]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
+    result.B_field_uT[2] = bytes_to_float(buffer[5], buffer[4]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
     // result.temp = bytes_to_float(buffer[7], buffer[6]) / TEMP_DEG_C_TO_LSB; // TODO
 
     return result;
