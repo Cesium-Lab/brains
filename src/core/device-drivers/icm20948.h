@@ -6,6 +6,7 @@
 
 #include "core/isolation-layer/peripherals/spi.h"
 #include "core/isolation-layer/peripherals/gpio.h"
+#include "core/isolation-layer/Eigen.h"
 
 /**
  * TODO:
@@ -17,13 +18,9 @@
 namespace Cesium::Sensor {
 
 struct icm20948_data_t {
-    float accel_x; // m/s2
-    float accel_y; // m/s2
-    float accel_z; // m/s2
-    float gyro_x; // dps
-    float gyro_y; // dps
-    float gyro_z; // dps
-    float temp; // deg C
+    Cesium::Vector3f accel_m_s2;
+    Cesium::Vector3f gyro_dps;
+    float temp_C; // deg C
 };
 
 // Must call constructor AFTER SPI IS INITIALIZED
@@ -69,9 +66,9 @@ class Icm20948 {
     /* Basic functions */
     void _select_user_bank(uint8_t bank);
     uint8_t _read_single(uint8_t reg);
-    void _read_burst(uint8_t reg, uint8_t* buffer, uint8_t len);
+    void _read_burst(uint8_t reg, uint8_t* buffer, uint8_t len); // Maximum burst read of 19 (arbitrary)
     uint8_t _write_single(uint8_t reg, uint8_t val);
-    void _write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len);
+    void _write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len); // Maximum burst read of 19 (arbitrary)
 
 
   protected:
@@ -79,6 +76,9 @@ class Icm20948 {
     uint8_t _cs_pin;
     int8_t _accel_range;
     int8_t _gyro_range;
+
+    uint8_t _rx[20]; // Maximum burst read of 19 (arbitrary)
+    uint8_t _tx[20]; // Maximum burst read of 19 (arbitrary)
 
     const etl::map<uint8_t, float, 4> ACCEL_RANGE_TO_SCALE_FACTOR = {
         {ACCEL_RANGE_2_G, 16384.0},

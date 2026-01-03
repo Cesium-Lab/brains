@@ -94,17 +94,17 @@ icm20948_data_t Icm20948::read()
 
     // Scale
     float accel_scale_factor = ACCEL_RANGE_TO_SCALE_FACTOR.at(_accel_range);
-    result.accel_x = bytes_to_float(buffer + 0) / accel_scale_factor * gravity;
-    result.accel_y = bytes_to_float(buffer + 2) / accel_scale_factor * gravity;
-    result.accel_z = bytes_to_float(buffer + 4) / accel_scale_factor * gravity;
+    result.accel_m_s2[0] = bytes_to_float(buffer + 0) / accel_scale_factor * gravity;
+    result.accel_m_s2[1] = bytes_to_float(buffer + 2) / accel_scale_factor * gravity;
+    result.accel_m_s2[2] = bytes_to_float(buffer + 4) / accel_scale_factor * gravity;
 
     float gyro_scale_factor = GYRO_RANGE_TO_SCALE_FACTOR.at(_gyro_range);
-    result.gyro_x = bytes_to_float(buffer + 6) / gyro_scale_factor;
-    result.gyro_y = bytes_to_float(buffer + 8) / gyro_scale_factor;
-    result.gyro_z = bytes_to_float(buffer + 10) / gyro_scale_factor;
+    result.gyro_dps[0] = bytes_to_float(buffer + 6) / gyro_scale_factor;
+    result.gyro_dps[1] = bytes_to_float(buffer + 8) / gyro_scale_factor;
+    result.gyro_dps[2] = bytes_to_float(buffer + 10) / gyro_scale_factor;
 
     // TEMP_degC = ((TEMP_OUT – RoomTemp_Offset)/Temp_Sensitivity) + 21degC
-    result.temp = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
+    result.temp_C = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
 
     return result;
 }
@@ -132,19 +132,19 @@ uint8_t Icm20948::_read_single(uint8_t reg) {
 
 void Icm20948::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
-    uint8_t buf[len + 1] = {};
-    buf[0] = reg | 0x80;
-    memset(buf + 1, 0x00, len);
+    // uint8_t buf[len + 1] = {};
+    _tx[0] = reg | 0x80;
+    memset(_tx + 1, 0x00, len);
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(buf, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
 
-    memcpy(rx_buf, buf + 1, len);
+    memcpy(rx_buf, _rx + 1, len);
 
 }
 
@@ -167,8 +167,8 @@ uint8_t Icm20948::_write_single(uint8_t reg, uint8_t val) {
 }
 
 
+// TODO: this probably doesn't work
 void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
-
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
@@ -185,23 +185,6 @@ void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
 void Icm20948::_select_user_bank(uint8_t bank) {
     _write_single(REG_BANK_SEL, bank << 4);
 }
-
-
-
-// class Icm20948 {
-//   public:
-//     Icm20948(uint8_t cs_pin);
-
-//     // 
-//     void select_user_bank(uint8_t bank);
-    
-//     void read_burst(int8_t reg, uint8_t* buffer, uint8_t len);
-
-//     void write_burst(int8_t reg, const uint8_t* buffer, uint8_t len);
-
-//   protected:
-//     SpiPort _spi;
-// };
 
 
 } // namespace Cesium::Sensor

@@ -6,6 +6,11 @@
 #include "core/device-drivers/adxl375.h"
 #include "core/device-drivers/lis2mdl.h"
 #include "core/isolation-layer/time.h"
+#include "core/isolation-layer/Eigen.h"
+
+
+#include <cstdio>  // for snprintf
+
 #include <Arduino.h>
 // #include <SPI.h>
 // #include <string>
@@ -15,7 +20,11 @@ using namespace Cesium::Sensor;
 
 int main() {
 
+    
+
     hal_init();
+
+
 
     /* LED GPIO */
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
@@ -25,6 +34,17 @@ int main() {
     uart.initialize();
     uart.transmit("This is the ESP32 Arduino Playground Target\n");
     uart.transmit("Setup\n");
+
+    //////////////////////////////////////////////////
+    //              Begin playground
+    //////////////////////////////////////////////////
+
+    Vector3f v;
+    v << 1, 2, 3;
+
+    //////////////////////////////////////////////////
+    //              End playground
+    //////////////////////////////////////////////////
 
     /* SPI */
     SpiSettings spi_settings_imu{._spi_mode=SpiMode::_0};
@@ -80,36 +100,32 @@ int main() {
         //              ICM20948
         //////////////////////////////////////////////////
         uart.transmit("ICM20948:\n");
-        // uint8_t current_value = icm._read_single(Icm20948::REG_ACCEL_CONFIG_BANK_2);
-        // uart.transmit("CurrVal: ");
-        // uart.transmit_byte(current_value, true);
 
         uint8_t icm_id = icm.chip_id();
         uart.transmit("ID: ");
         uart.transmit_byte(icm_id, true);
 
-        Sensor::icm20948_data_t data = icm.read();
-        Serial.println(data.accel_x);
-        Serial.println(data.accel_y);
-        Serial.println(data.accel_z);
-        Serial.println(data.gyro_x);
-        Serial.println(data.gyro_y);
-        Serial.println(data.gyro_z);
-        Serial.println(data.temp);
-        uart.transmit_bytes((uint8_t*)&data.accel_x, 4, true);
+        Sensor::icm20948_data_t data_icm = icm.read();
+        uart.transmit("Acceleration [m/s2]: ");
+        uart.transmit_floats(data_icm.accel_m_s2.data(), 3, true);
+        uart.transmit("Ang. Velocity [deg/s]: ");
+        uart.transmit_floats(data_icm.gyro_dps.data(), 3, true);
+        uart.transmit("Temperature [ºC]: ");
+        uart.transmitln(data_icm.temp_C);
+
 
         //////////////////////////////////////////////////
         //              ADXL375
         //////////////////////////////////////////////////
         uart.transmit("ADXL375:\n");
+
         uint8_t adxl_id = adxl.chip_id();
         uart.transmit("ID: ");
         uart.transmit_byte(adxl_id, true);
 
         Sensor::adxl375_data_t data_shock = adxl.read();
-        Serial3.println(data_shock.accel_x);
-        Serial3.println(data_shock.accel_y);
-        Serial3.println(data_shock.accel_z);
+        uart.transmit("Acceleration [m/s2]: ");
+        uart.transmit_floats(data_shock.accel_m_s2.data(), 3, true);
 
         //////////////////////////////////////////////////
         //              LIS2MDL
@@ -121,23 +137,8 @@ int main() {
         uart.transmit_byte(id, true); // Should be 0x40
 
         Sensor::lis2mdl_data_t mag_data = lis.read();
-        // uart.transmit_bytes((uint8_t*)(&data.mag_x), 4, true);
-        // uart.transmit("X: ");
-        // std::string x_str = std::to_string(data.mag_x);
-        // char buf[32];
-        // snprintf(buf, sizeof(buf), "%f", data.mag_x); // format float into human-readable string
-        // uart.transmitln(buf, strlen(buf));
-        // Serial.write(buf);
-        // uart.transmitln(x_str.c_str(), x_str.size());
-        // uart.transmit("Y: ");
-        // uart.transmitln(std::to_string(data.mag_y).c_str());
-        // uart.transmit("Z: ");
-        // uart.transmitln(std::to_string(data.mag_z).c_str());
-        // uart.transmitln("");
-        Serial3.println(mag_data.mag_x);
-        Serial3.println(mag_data.mag_y);
-        Serial3.println(mag_data.mag_z);
-        // Serial3.println(data.temp);
+        uart.transmit("Magnetic Field [uT]: ");
+        uart.transmit_floats(mag_data.B_field_uT.data(), 3, true);
 
         Time::delay(1000);
     }

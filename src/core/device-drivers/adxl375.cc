@@ -50,16 +50,10 @@ adxl375_data_t Adxl375::read()
 
     _read_burst(REG_DATAX0, buffer, 6);
 
-    // Serial3.println(buffer[0]);
-    // Serial3.println(buffer[1]);
-    // Serial3.println(buffer[2]);
-    // Serial3.println(buffer[3]);
-    // Serial3.println(buffer[4]);
-    // Serial3.println(buffer[5]);
     // Using this 
-    result.accel_x = bytes_to_16(buffer[1], buffer[0]) * LSB_TO_G * gravity;
-    result.accel_y = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
-    result.accel_z = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
+    result.accel_m_s2[0] = bytes_to_16(buffer[1], buffer[0]) * LSB_TO_G * gravity;
+    result.accel_m_s2[1] = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
+    result.accel_m_s2[2] = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
 
     return result;
 }
@@ -88,21 +82,21 @@ uint8_t Adxl375::_read_single(uint8_t reg) {
 
 void Adxl375::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
-    uint8_t tx[len + 1] = {};
-    tx[0] = reg | 0xC0;
-    memset(tx + 1, 0x00, len);
+    // uint8_t tx[len + 1] = {};
+    _tx[0] = reg | 0xC0;
+    memset(_tx + 1, 0x00, len);
     
-    uint8_t rx[len + 1] = {};
+    // uint8_t rx[len + 1] = {};
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(tx, rx, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
 
-    memcpy(rx_buf, rx + 1, len);
+    memcpy(rx_buf, _rx + 1, len);
 
 }
 
@@ -113,9 +107,9 @@ void Adxl375::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
 uint8_t Adxl375::_write_single(uint8_t reg, uint8_t val) {
 
-    uint8_t tx[1] = {val};
+    uint8_t tx_buf[1] = {val};
  
-    _write_burst(reg, tx, 1);
+    _write_burst(reg, tx_buf, 1);
 
     return 1;
 }
@@ -123,16 +117,16 @@ uint8_t Adxl375::_write_single(uint8_t reg, uint8_t val) {
 
 void Adxl375::_write_burst(uint8_t reg, const uint8_t* tx_buf, uint8_t len) {
 
-    uint8_t tx[len + 1] = {};
-    tx[0] = reg & 0x7F;
-    memcpy(tx + 1, tx_buf, len);
+    // uint8_t tx[len + 1] = {};
+    _tx[0] = reg & 0x7F;
+    memcpy(_tx + 1, tx_buf, len);
     
-    uint8_t rx[len + 1] = {};
+    // uint8_t rx[len + 1] = {};
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(tx, rx, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);

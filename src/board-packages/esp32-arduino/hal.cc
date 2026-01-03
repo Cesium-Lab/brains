@@ -17,7 +17,9 @@ void hal_init() {
 
 namespace Pin {
 const uint8_t BUILTIN_LED{2}; // Should be LED_BUILTIN from Arduino but not sure which header
-const uint8_t IMU_CS{5}; // Should be LED_BUILTIN from Arduino but not sure which header
+const uint8_t IMU_CS{5};
+const uint8_t SHOCK_CS{16};
+const uint8_t MAG_CS{17};
 }
 
 // -------------------------
