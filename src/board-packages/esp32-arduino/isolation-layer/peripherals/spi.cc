@@ -53,4 +53,10 @@ void Spi::transfer(uint8_t* input, uint8_t size)
     _spi.transfer(input, size);
 }
 
+void Spi::transfer(uint8_t* tx, uint8_t* rx, uint8_t size)
+{
+    _spi.transferBytes(tx, rx, size);
+}
+
+
 } // namespace Cesium

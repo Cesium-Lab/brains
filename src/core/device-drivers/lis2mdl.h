@@ -49,14 +49,17 @@ class Lis2Mdl {
 
     /* Basic functions TODO: put in spi driver? */
     uint8_t _read_single(uint8_t reg);
-    void _read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len);
+    void _read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len); // Maximum burst read of 19 (arbitrary)
     uint8_t _write_single(uint8_t reg, uint8_t val);
-    void _write_burst(uint8_t reg, const uint8_t* tx_buf, uint8_t len);
+    void _write_burst(uint8_t reg, const uint8_t* tx_buf, uint8_t len); // Maximum burst write of 19 (arbitrary)
 
 
   protected:
     Spi _spi;
     uint8_t _cs_pin;
+
+    uint8_t _rx[20]; // Maximum burst read of 19 (arbitrary)
+    uint8_t _tx[20]; // Maximum burst read of 19 (arbitrary)
 
 
 };

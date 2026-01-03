@@ -132,19 +132,19 @@ uint8_t Icm20948::_read_single(uint8_t reg) {
 
 void Icm20948::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
-    uint8_t buf[len + 1] = {};
-    buf[0] = reg | 0x80;
-    memset(buf + 1, 0x00, len);
+    // uint8_t buf[len + 1] = {};
+    _tx[0] = reg | 0x80;
+    memset(_tx + 1, 0x00, len);
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(buf, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
 
-    memcpy(rx_buf, buf + 1, len);
+    memcpy(rx_buf, _rx + 1, len);
 
 }
 
@@ -167,8 +167,8 @@ uint8_t Icm20948::_write_single(uint8_t reg, uint8_t val) {
 }
 
 
+// TODO: this probably doesn't work
 void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
-
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
@@ -185,23 +185,6 @@ void Icm20948::_write_burst(uint8_t reg, const uint8_t* buffer, uint8_t len) {
 void Icm20948::_select_user_bank(uint8_t bank) {
     _write_single(REG_BANK_SEL, bank << 4);
 }
-
-
-
-// class Icm20948 {
-//   public:
-//     Icm20948(uint8_t cs_pin);
-
-//     // 
-//     void select_user_bank(uint8_t bank);
-    
-//     void read_burst(int8_t reg, uint8_t* buffer, uint8_t len);
-
-//     void write_burst(int8_t reg, const uint8_t* buffer, uint8_t len);
-
-//   protected:
-//     SpiPort _spi;
-// };
 
 
 } // namespace Cesium::Sensor

@@ -107,9 +107,9 @@ int main() {
         uart.transmit_byte(adxl_id, true);
 
         Sensor::adxl375_data_t data_shock = adxl.read();
-        Serial3.println(data_shock.accel_x);
-        Serial3.println(data_shock.accel_y);
-        Serial3.println(data_shock.accel_z);
+        Serial.println(data_shock.accel_x);
+        Serial.println(data_shock.accel_y);
+        Serial.println(data_shock.accel_z);
 
         //////////////////////////////////////////////////
         //              LIS2MDL
@@ -134,10 +134,10 @@ int main() {
         // uart.transmit("Z: ");
         // uart.transmitln(std::to_string(data.mag_z).c_str());
         // uart.transmitln("");
-        Serial3.println(mag_data.mag_x);
-        Serial3.println(mag_data.mag_y);
-        Serial3.println(mag_data.mag_z);
-        // Serial3.println(data.temp);
+        Serial.println(mag_data.mag_x);
+        Serial.println(mag_data.mag_y);
+        Serial.println(mag_data.mag_z);
+        // Serial.println(data.temp);
 
         Time::delay(1000);
     }

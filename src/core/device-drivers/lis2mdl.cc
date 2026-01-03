@@ -6,6 +6,8 @@
 
 namespace Cesium::Sensor {
 
+
+
 Lis2Mdl::Lis2Mdl(Spi spi, uint8_t cs_pin) 
     : _spi{spi}, _cs_pin{cs_pin} {
     Gpio::init_digital(_cs_pin, GpioType::DIGITAL_OUT);
@@ -49,38 +51,39 @@ lis2mdl_data_t Lis2Mdl::read()
 
 uint8_t Lis2Mdl::_read_single(uint8_t reg) {
 
-    uint8_t tx[2] = {(uint8_t)(reg | 0x80), 0x00};
-    uint8_t rx[2] = {};
+    // uint8_t tx[2] = {(uint8_t)(reg | 0x80), 0x00};
+    _tx[0] = reg | 0x80;
+    // uint8_t rx[2] = {};
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(tx, rx, 2); // read mask
+    _spi.transfer(_tx, _rx, 2); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
 
-    return rx[1];
+    return _rx[1];
 }
 
 
 void Lis2Mdl::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
-    uint8_t tx[len + 1] = {};
-    tx[0] = reg | 0x80;
-    memset(tx + 1, 0x00, len);
+    // uint8_t tx[len + 1] = {};
+    _tx[0] = reg | 0x80;
+    memset(_tx + 1, 0x00, len);
     
-    uint8_t rx[len + 1] = {};
+    // uint8_t rx[len + 1] = {};
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(tx, rx, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
 
-    memcpy(rx_buf, rx + 1, len);
+    memcpy(rx_buf, _rx + 1, len);
 
 }
 
@@ -91,9 +94,9 @@ void Lis2Mdl::_read_burst(uint8_t reg, uint8_t* rx_buf, uint8_t len) {
 
 uint8_t Lis2Mdl::_write_single(uint8_t reg, uint8_t val) {
 
-    uint8_t tx[1] = {val};
+    uint8_t tx_buf[1] = {val};
  
-    _write_burst(reg, tx, 1);
+    _write_burst(reg, tx_buf, 1);
 
     return 1;
 }
@@ -101,16 +104,16 @@ uint8_t Lis2Mdl::_write_single(uint8_t reg, uint8_t val) {
 
 void Lis2Mdl::_write_burst(uint8_t reg, const uint8_t* tx_buf, uint8_t len) {
 
-    uint8_t tx[len + 1] = {};
-    tx[0] = reg & 0x7F;
-    memcpy(tx + 1, tx_buf, len);
+    // uint8_t tx[len + 1] = {};
+    _tx[0] = reg & 0x7F;
+    memcpy(_tx + 1, tx_buf, len);
     
-    uint8_t rx[len + 1] = {};
+    // uint8_t rx[len + 1] = {};
 
     Gpio::write_digital(_cs_pin, false);
     _spi.begin_transaction();
 
-    _spi.transfer(tx, rx, len+1); // read mask
+    _spi.transfer(_tx, _rx, len+1); // read mask
 
     _spi.end_transaction();
     Gpio::write_digital(_cs_pin, true);
