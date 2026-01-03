@@ -11,7 +11,7 @@
 
 #include <cstdio>  // for snprintf
 
-#include <Arduino.h>
+// #include <Arduino.h>
 // #include <SPI.h>
 // #include <string>
 
