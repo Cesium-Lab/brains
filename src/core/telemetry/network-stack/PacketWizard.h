@@ -22,17 +22,15 @@ class PacketWizard {
 
 public:
     PacketWizard(uint8_t vehicle_id);
-    packet_t packetize(etl::array<uint8_t, MAX_DATA_LENGTH> data, uint16_t length);
+    //etl::array<uint8_t, MAX_DATA_LENGTH> data, 
+                    //    uint16_t length, uint32_t timestamp_ms, uint8_t seq = SEQ::SINGLE
+    raw_packet_t packetize(const packet_t& packet);
     static raw_packet_t encode(packet_t packet);
-    static bool decode(etl::array<uint8_t, MAX_DATA_LENGTH> data, packet_t& packet);
+    static bool decode(const raw_packet_t& raw_packet, packet_t& packet);
     
-    // static cobs_encoded_data_t add_cobs(packet_t packet);
-    // static raw_packet_t remove_cobs(cobs_encoded_data_t data);
-
-    inline uint8_t get_sequence_number() { return _current_sequence_number; }
+    inline uint8_t get_vehicle_id() { return _vehicle_id; }
 
 private:
-    uint8_t _current_sequence_number;
     uint8_t _vehicle_id;
 };
 
