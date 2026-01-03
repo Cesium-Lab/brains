@@ -10,6 +10,8 @@
  * - Interrupts
  * - FIFO
  * - Self-test
+ * 
+ * THIS DOESN'T WORK ON H753 RIGHT NOW??!?!?!? WHAT?!
  */
 
 namespace Cesium::Sensor {
