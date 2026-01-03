@@ -20,6 +20,7 @@ int main() {
 
     while(1) {
         uart.transmit_bytes((uint8_t*)message, 30, true);
+
         Cesium::Time::delay(1000);
     }
 

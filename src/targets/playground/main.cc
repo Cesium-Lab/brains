@@ -6,7 +6,12 @@
 #include "core/device-drivers/adxl375.h"
 #include "core/device-drivers/lis2mdl.h"
 #include "core/isolation-layer/time.h"
-#include <Arduino.h>
+#include "core/isolation-layer/Eigen.h"
+
+
+#include <cstdio>  // for snprintf
+
+// #include <Arduino.h>
 // #include <SPI.h>
 // #include <string>
 
@@ -15,7 +20,11 @@ using namespace Cesium::Sensor;
 
 int main() {
 
+    
+
     hal_init();
+
+
 
     /* LED GPIO */
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
@@ -25,6 +34,17 @@ int main() {
     uart.initialize();
     uart.transmit("This is the ESP32 Arduino Playground Target\n");
     uart.transmit("Setup\n");
+
+    //////////////////////////////////////////////////
+    //              Begin playground
+    //////////////////////////////////////////////////
+
+    Vector3f v;
+    v << 1, 2, 3;
+
+    //////////////////////////////////////////////////
+    //              End playground
+    //////////////////////////////////////////////////
 
     /* SPI */
     SpiSettings spi_settings_imu{._spi_mode=SpiMode::_0};
@@ -89,13 +109,13 @@ int main() {
         uart.transmit_byte(icm_id, true);
 
         Sensor::icm20948_data_t data = icm.read();
-        Serial.println(data.accel_x);
-        Serial.println(data.accel_y);
-        Serial.println(data.accel_z);
-        Serial.println(data.gyro_x);
-        Serial.println(data.gyro_y);
-        Serial.println(data.gyro_z);
-        Serial.println(data.temp);
+        // Serial.println(data.accel_x);
+        // Serial.println(data.accel_y);
+        // Serial.println(data.accel_z);
+        // Serial.println(data.gyro_x);
+        // Serial.println(data.gyro_y);
+        // Serial.println(data.gyro_z);
+        // Serial.println(data.temp);
         uart.transmit_bytes((uint8_t*)&data.accel_x, 4, true);
 
         //////////////////////////////////////////////////
@@ -107,9 +127,9 @@ int main() {
         uart.transmit_byte(adxl_id, true);
 
         Sensor::adxl375_data_t data_shock = adxl.read();
-        Serial.println(data_shock.accel_x);
-        Serial.println(data_shock.accel_y);
-        Serial.println(data_shock.accel_z);
+        // Serial.println(data_shock.accel_x);
+        // Serial.println(data_shock.accel_y);
+        // Serial.println(data_shock.accel_z);
 
         //////////////////////////////////////////////////
         //              LIS2MDL
@@ -134,9 +154,9 @@ int main() {
         // uart.transmit("Z: ");
         // uart.transmitln(std::to_string(data.mag_z).c_str());
         // uart.transmitln("");
-        Serial.println(mag_data.mag_x);
-        Serial.println(mag_data.mag_y);
-        Serial.println(mag_data.mag_z);
+        // Serial.println(mag_data.mag_x);
+        // Serial.println(mag_data.mag_y);
+        // Serial.println(mag_data.mag_z);
         // Serial.println(data.temp);
 
         Time::delay(1000);

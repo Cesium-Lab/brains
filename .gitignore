@@ -1,5 +1,7 @@
 .pio
 .vscode
+src/third-party
+!src/third-party/README.md
 
 # Prerequisites
 *.d
