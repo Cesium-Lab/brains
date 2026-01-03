@@ -42,7 +42,7 @@ raw_packet_t PacketWizard::packetize(const packet_t& packet)
 }
 
 // Returns false if CRC did not match
-bool PacketWizard::decode(const raw_packet_t& raw_packet, packet_t& packet)
+bool PacketWizard::depacketize(const raw_packet_t& raw_packet, packet_t& packet)
 {
     const auto& data = raw_packet.data;
 
