@@ -9,8 +9,6 @@
 #include "core/isolation-layer/Eigen.h"
 #include <etl/array.h>
 
-#include <cstdio>  // for snprintf
-
 // #include <Arduino.h>
 // #include <SPI.h>
 // #include <string>

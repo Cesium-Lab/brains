@@ -1,7 +1,6 @@
 #include "core/isolation-layer/peripherals/uart.h"
 
 #include <cstring> // memset
-#include <cstdio> // snprintf
 #include <Arduino.h>
 
 namespace Cesium {
@@ -75,19 +74,6 @@ uint32_t Uart::transmit_byte(uint8_t byte, bool end_line)
 //                              float
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// uint32_t Uart::transmit(float data, uint8_t decimal_places) {
-    // char float_buf[FLOAT_BUF_LEN];
-    // memset(float_buf, 0, FLOAT_BUF_LEN);
-
-
-    // // Format float into buffer
-    // snprintf(float_buf, FLOAT_BUF_LEN, "%.*f", decimal_places, data); // 3 decimal places
-
-//     return transmit(float_buf, strlen(float_buf));
-
-// }
-
-
 uint32_t Uart::transmit(uint16_t data) { return transmit((uint64_t)data); }
 
 uint32_t Uart::transmit(uint32_t data) { return transmit((uint64_t)data); }
@@ -111,13 +97,13 @@ uint32_t Uart::transmit(uint64_t data)
 }
 
 uint32_t Uart::transmitln(uint16_t data) {
-    transmit((uint64_t)data) + transmit("\n"); // Casted to 64 to prevented doubly nested calls
+    return transmit((uint64_t)data) + transmit("\n"); // Casted to 64 to prevented doubly nested calls
 }
 uint32_t Uart::transmitln(uint32_t data) {
-    transmit((uint64_t)data) + transmit("\n"); // Casted to 64 to prevented doubly nested calls
+    return transmit((uint64_t)data) + transmit("\n"); // Casted to 64 to prevented doubly nested calls
 }
 uint32_t Uart::transmitln(uint64_t data) {
-    transmit(data) + transmit("\n");
+    return transmit(data) + transmit("\n");
 }
 
 // From Arduino YAY! https://www.h-schmidt.net/FloatConverter/IEEE754.html 
@@ -125,10 +111,10 @@ uint32_t Uart::transmit(float data, uint8_t decimal_places)
 {
   size_t n = 0;
 
-  if (isnan(data)) {
+  if (data != data) {
     return transmit("nan");
   }
-  if (isinf(data)) {
+  if (data > FLT_MAX || data < -FLT_MAX) {
     return transmit("inf");
   }
   if (data > 4294967040.0) {
