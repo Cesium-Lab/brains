@@ -18,11 +18,7 @@ using namespace Cesium::Sensor;
 
 int main() {
 
-    
-
     hal_init();
-
-
 
     /* LED GPIO */
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);

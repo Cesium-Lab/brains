@@ -6,3 +6,9 @@
 - [ ] Send message over Ethernet, CAN, and Wifi (for ESP)
   - [ ] in correct packet framing
 - [ ] 
+
+RAM:   [==        ]  24.0% (used 1476 bytes from 6144 bytes)
+Flash: [========  ]  76.3% (used 25008 bytes from 32768 bytes)
+
+RAM:   [=         ]   6.6% (used 21528 bytes from 327680 bytes)
+Flash: [==        ]  22.0% (used 287873 bytes from 1310720 bytes)

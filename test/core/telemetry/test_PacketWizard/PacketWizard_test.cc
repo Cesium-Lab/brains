@@ -14,16 +14,29 @@ using namespace Cesium::Telemetry;
 //     RUN_TEST(simple_test);
 // }
 
-////////////////////////////////////////////////////////////
-//                      Constructor                       //
-////////////////////////////////////////////////////////////
 
+// Just makes sure no errors
 void test_constructor() {
-    PacketWizard packet_wizard(0);
-    // TEST_ASSERT_EQUAL(0, packet_wizard.get_sequence_number());
-
+    PacketWizard packet_wizard;
 }
 
+////////////////////////////////////////////////////////////
+//                      Bad VID
+////////////////////////////////////////////////////////////
+
+void test_bad_vid() {
+    PacketWizard packet_wizard;
+    
+    packet_t packet();
+
+    //     etl::array<uint8_t, MAX_DATA_LENGTH> data;
+    // uint16_t length;
+    
+    // uint32_t timestamp_ms; // Decoded millisecond timestamp
+    // uint8_t op_code;
+    // uint8_t vehicle_id; // Where message came from
+    // SEQ seq; // 0-3
+}
 
 
 int main (){

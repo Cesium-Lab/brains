@@ -5,8 +5,14 @@
 // Arbitrary
 const uint16_t MAX_DATA_LENGTH = 255; 
 
-// Raw data: MAX_PACKET_LENGTH + timestamp (4) + VID/SEQ (1) + length (2) + CRC (2)
-const uint16_t MAX_RAW_PACKET_LENGTH = MAX_DATA_LENGTH + 9;
+// Raw data: MAX_PACKET_LENGTH + timestamp (4) + VID/SEQ (1) + OP code (1) + length (2) + CRC (2)
+const uint16_t MAX_RAW_PACKET_LENGTH = MAX_DATA_LENGTH + 10;
+
+constexpr size_t VEHICLE_ID_BITS = 6;
+constexpr size_t SEQ_NUM_BITS = 2;
+
+constexpr size_t MAX_VEHICLE_ID = (1 << VEHICLE_ID_BITS)  - 1;
+constexpr size_t MAX_SEQ_NUM = (1 << SEQ_NUM_BITS)  - 1;
 
 // Held in 2 bytes
 enum SEQ {
@@ -24,8 +30,9 @@ struct __attribute__((packed)) packet_t {
     uint16_t length;
     
     uint32_t timestamp_ms; // Decoded millisecond timestamp
+    uint8_t op_code;
     uint8_t vehicle_id; // Where message came from
-    SEQ seq; // 6-bit counter: 0-64 (0x3F)
+    SEQ seq; // 0-3
 };
 
 // Raw packet bytes
