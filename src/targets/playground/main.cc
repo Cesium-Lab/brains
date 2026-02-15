@@ -7,11 +7,9 @@
 #include "core/device-drivers/lis2mdl.h"
 #include "core/isolation-layer/time.h"
 #include "core/isolation-layer/Eigen.h"
+#include <etl/array.h>
 
-
-#include <cstdio>  // for snprintf
-
-#include <Arduino.h>
+// #include <Arduino.h>
 // #include <SPI.h>
 // #include <string>
 
@@ -20,11 +18,7 @@ using namespace Cesium::Sensor;
 
 int main() {
 
-    
-
     hal_init();
-
-
 
     /* LED GPIO */
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
@@ -34,17 +28,6 @@ int main() {
     uart.initialize();
     uart.transmit("This is the ESP32 Arduino Playground Target\n");
     uart.transmit("Setup\n");
-
-    //////////////////////////////////////////////////
-    //              Begin playground
-    //////////////////////////////////////////////////
-
-    Vector3f v;
-    v << 1, 2, 3;
-
-    //////////////////////////////////////////////////
-    //              End playground
-    //////////////////////////////////////////////////
 
     /* SPI */
     SpiSettings spi_settings_imu{._spi_mode=SpiMode::_0};
@@ -80,6 +63,24 @@ int main() {
     /* ADXL375 */
     Lis2Mdl lis(spi_mag, Pin::MAG_CS);
     lis.initialize();
+
+
+    //////////////////////////////////////////////////
+    //              Begin playground
+    //////////////////////////////////////////////////
+
+    Vector3f v;
+    v << 1, 2, 3;
+
+    etl::array<uint8_t, 3> a = {72,72,72};
+
+    // uart.transmitln(a);
+    // uart.transmit_bytes(a, true);
+
+
+    //////////////////////////////////////////////////
+    //              End playground
+    //////////////////////////////////////////////////
 
     while(1) {
         uart.transmit("----- LOOP -----\n");

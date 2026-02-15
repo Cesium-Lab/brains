@@ -8,6 +8,11 @@
 - ESP IDF Toolchain
 - STM 32 Toolchain -->
 
+# PlatformIO
+
+## Native
+- Do NOT need to build every time you change code, just press upload, but you have to clear the Upload command terminal first
+
 # ESPIDF
 - if sdkconfig.h will not include, then run `pio run --target menuconfig` (then press escape?) 
 
