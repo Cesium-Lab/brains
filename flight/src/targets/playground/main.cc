@@ -8,6 +8,9 @@
 #include "core/isolation-layer/time.h"
 #include "core/isolation-layer/Eigen.h"
 
+#include "core/utilities/basic-filters.h"
+#include "core/gnc/estimation/ekf.h"
+
 
 #include <cstdio>  // for snprintf
 
