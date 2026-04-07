@@ -17,8 +17,8 @@ Spi::Spi(SpiSettings settings, SpiPort port)
     : _settings{settings}, _port{port} {}
 
 
-void Spi::initialize()
-{
+void Spi::initialize() {
+
     _spi.begin();
     _spi.setMISO(_port.MISO);
     _spi.setMOSI(_port.MOSI);
@@ -48,8 +48,8 @@ void Spi::end_transaction() {
     _spi.endTransaction();
 }
 
-uint8_t Spi::transfer(uint8_t input)
-{
+uint8_t Spi::transfer(uint8_t input) {
+
     uint8_t output;
 
     _spi.transfer(input);
@@ -58,8 +58,8 @@ uint8_t Spi::transfer(uint8_t input)
     return output;
 }
 
-void Spi::transfer(uint8_t* input, uint8_t size)
-{
+void Spi::transfer(uint8_t* input, uint8_t size) {
+
     _spi.transfer(input, size);
 }
 

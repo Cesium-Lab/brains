@@ -42,8 +42,8 @@ uint8_t Adxl375::chip_id() {
     return _read_single(REG_WHO_AM_I);
 }
 
-adxl375_data_t Adxl375::read()
-{
+adxl375_data_t Adxl375::read() {
+
 
     adxl375_data_t result;
     uint8_t buffer[6]{};

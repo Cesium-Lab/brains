@@ -14,8 +14,8 @@ namespace Cesium {
 Uart::Uart(uint32_t baud_rate, int8_t uart_instance, const char* port_name) 
     : _baud_rate(baud_rate), _uart_instance(uart_instance), _uart_name{port_name} {}
 
-bool Uart::initialize()
-{
+bool Uart::initialize() {
+
 
     // If uart instance is 0, then uses cout stream (fd 1)
     if (_uart_instance == 0 || std::string(_uart_name) == "stdout") {
@@ -63,13 +63,13 @@ bool Uart::initialize()
     return true;
 }
 
-uint32_t Uart::transmit(char data)
-{
+uint32_t Uart::transmit(char data) {
+
     return write(_uart_instance, &data, 1);
 }
 
-uint32_t Uart::transmit(const char* data, uint32_t len)
-{
+uint32_t Uart::transmit(const char* data, uint32_t len) {
+
     return write(_uart_instance, data, len);
 }
 

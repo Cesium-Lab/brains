@@ -29,8 +29,8 @@ uint8_t Icm20948::chip_id() {
 }
 
 
-bool Icm20948::set_accel_range(uint8_t range)
-{
+bool Icm20948::set_accel_range(uint8_t range) {
+
     _select_user_bank(2);
     uint8_t current_value = _read_single(REG_ACCEL_CONFIG_BANK_2);
 
@@ -48,8 +48,8 @@ bool Icm20948::set_accel_range(uint8_t range)
 }
 
 
-bool Icm20948::set_gyro_range(uint8_t range)
-{
+bool Icm20948::set_gyro_range(uint8_t range) {
+
     // This is technically basically a copy of the accel one, oops
     _select_user_bank(2);
     uint8_t current_value = _read_single(REG_GYRO_CONFIG_BANK_2);
@@ -68,8 +68,8 @@ bool Icm20948::set_gyro_range(uint8_t range)
 }
 
 
-icm20948_data_t Icm20948::read()
-{
+icm20948_data_t Icm20948::read() {
+
 
     // If accel range not known already
     if (_accel_range == -1) {

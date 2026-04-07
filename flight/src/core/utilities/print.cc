@@ -1,3 +1,4 @@
+#include <cstring>
 #include "print.h"
 
 namespace Cesium {

@@ -26,8 +26,8 @@ struct SpiPort {
     uint8_t CS = 0;
 };
 
-struct SpiSettings
-{
+struct SpiSettings {
+
     uint32_t _clock_hz = 1'000'000;
     SpiBitOrder  _bit_order = SpiBitOrder::MSB_FIRST;
     SpiMode  _spi_mode = SpiMode::_0;

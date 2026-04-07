@@ -27,8 +27,8 @@ uint8_t Lis2Mdl::chip_id() {
     return _read_single(REG_WHO_AM_I);
 }
 
-lis2mdl_data_t Lis2Mdl::read()
-{
+lis2mdl_data_t Lis2Mdl::read() {
+
 
     lis2mdl_data_t result;
     uint8_t buffer[8]{};

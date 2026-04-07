@@ -1,5 +1,4 @@
-// #include <ArduinoEigen/Eigen/Core>
-#include "core/isolation-layer/math/Eigen.h"
+// #include <ArduinoEigen/Eigen/Core>"
 #include <Arduino.h>
 // #include <SPI.h>
 // #include "core/isolation-layer/peripherals/spi.h"
@@ -21,13 +20,14 @@ void setup() {
     Serial.println("This is the 'Hello World' Target!");
     Serial.println("Setup.");
 
-    Cesium::Vector3f vec;
+    // Cesium::Vector3f vec;
 
     
 }
 
 void loop() {
-    
+    Serial.println("Loop");
+    delay(500);
 }
 
 
