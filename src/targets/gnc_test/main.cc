@@ -118,10 +118,10 @@ int main() {
         uint8_t icm_id = icm.chip_id();
         p.printk("ID: %0X\n", icm_id); // Should be 0xEA
 
-        Sensor::icm20948_data_t data_icm = icm.read();
-        p.printk("Acceleration [m/s2]: %v3\n", &data_icm.accel_m_s2);
-        p.printk("Ang. Velocity [deg/s]: %v3\n", &data_icm.gyro_dps);
-        p.printk("Temperature [ºC]: %f\n", &data_icm.temp_C);
+        // Sensor::icm20948_data_t data_icm = icm.read();
+        // p.printk("Acceleration [m/s2]: %v3\n", &data_icm.accel_m_s2);
+        // p.printk("Ang. Velocity [deg/s]: %v3\n", &data_icm.gyro_dps);
+        // p.printk("Temperature [ºC]: %f\n", data_icm.temp_C);
 
         //////////////////////////////////////////////////
         //              ADXL375
@@ -132,7 +132,7 @@ int main() {
         p.printk("ID: %0X\n", adxl_id); // Should be 0xE5
 
         Sensor::adxl375_data_t data_shock = adxl.read();
-        p.printk("Acceleration [m/s2]: %v3\n", &data_shock.accel_m_s2);
+        p.printk("Acceleration [m/s2]: %vX3\n", &data_shock.accel_m_s2);
 
         //////////////////////////////////////////////////
         //              LIS2MDL
@@ -142,8 +142,8 @@ int main() {
         uint8_t lis_id = lis.chip_id();
         p.printk("ID: %0X\n", lis_id); // Should be 0x40
 
-        Sensor::lis2mdl_data_t mag_data = lis.read();
-        p.printk("Magnetic Field [uT]: %v3\n", &mag_data.B_field_uT);
+        // Sensor::lis2mdl_data_t mag_data = lis.read();
+        // p.printk("Magnetic Field [uT]: %v3\n", &mag_data.B_field_uT);
 
         Time::delay(1000);
     }

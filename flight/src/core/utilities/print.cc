@@ -3,10 +3,7 @@
 
 namespace Cesium {
 
-constexpr uint8_t FLOAT_BUF_LEN = 50;
-char float_buf[FLOAT_BUF_LEN] = {};       // buffer to hold the formatted float
-
-Print::Print(Uart& uart) : _uart{uart} {}
+Print::Print(Uart& uart) : _uart{uart}, _float_buf{} {}
 
 bool Print::begin() { return _uart.initialize(); }
 
@@ -17,17 +14,17 @@ int Print::putk(const char* cstr) {
 
 uint32_t Print::putfloat(float f, uint32_t base, bool upper_hex, uint32_t precision) {
 
-    memset(float_buf, 0, FLOAT_BUF_LEN);
+    memset(_float_buf, 0, FLOAT_BUF_LEN);
 
     uint32_t count = 0;
 
     if (base == 10) {
         // Format float into buffer (DO NOT COMPILE RELEASE WITH THIS, IT'S HUGE AND SLOW, BUT GOOD FOR DEBUGGING)
         // TODO: do the function myself (sort of a fun thing)
-        snprintf(float_buf, FLOAT_BUF_LEN, "%.*f", precision, f); // 3 decimal places
+        snprintf(_float_buf, FLOAT_BUF_LEN, "%.*f", (int)precision, (double)f); // 3 decimal places
         // God cast is annoying but C++ style (maybe I shold do C style)
         return _uart.transmit(
-            reinterpret_cast<const uint8_t*>(float_buf), (uint32_t)strlen(float_buf));
+            reinterpret_cast<const uint8_t*>(_float_buf), (uint32_t)strlen(_float_buf));
     }
     else if (base == 16) {
         uint8_t* float_bytes = reinterpret_cast<uint8_t*>(&f);
@@ -74,7 +71,7 @@ uint32_t Print::emit_num(uint32_t num, uint32_t base, bool upper_hex) {
 
     while (p > buf) {
         --p;
-        _uart.transmit(*p);
+        nbytes += _uart.transmit(*p);
     }
 
     return nbytes;
@@ -115,7 +112,7 @@ int Print::vprintk(const char* format, va_list args) {
 
         switch (format[i]) {
         case 'c': // - c for char
-            count += _uart.transmit(static_cast<char>(va_arg(args, int)));
+            count += _uart.transmit(static_cast<uint8_t>(va_arg(args, int)));
             break;
 
         case 'b':  // - b for binary
@@ -148,7 +145,7 @@ int Print::vprintk(const char* format, va_list args) {
                 count += _uart.transmit("0x");
                 count += emit_num(va_arg(args, uint32_t), 16, false);
             } else if (format[i] == 'X') {
-                count += _uart.transmit("0x"); // keep old behavior
+                count += _uart.transmit("0X"); // keep old behavior
                 count += emit_num(va_arg(args, uint32_t), 16, true);
             } else {
                 count += _uart.transmit("BAD CSTRING HEX FORMAT\n");
@@ -169,7 +166,15 @@ int Print::vprintk(const char* format, va_list args) {
             break;
         }
 
+        case 'V':
         case 'v': {
+            uint32_t base = 10;
+            bool upper_hex = true;
+            i++;
+            if (format[i] == 'x') { base = 16; upper_hex = false; }
+            if (format[i] == 'X') { base = 16; upper_hex = true; }
+            // Else float
+            
             i++;
             if (format[i] != '3') {
                 count += _uart.transmit("BAD VECTOR3F FORMAT (expected %v3)\n");
@@ -178,7 +183,7 @@ int Print::vprintk(const char* format, va_list args) {
             const Cesium::Vector3f* v = va_arg(args, const Cesium::Vector3f*);
             if (!v) { count += _uart.transmit("(null)"); break; }
 
-            count += emit_float_vec(*v, 10, false);   // however you access storage
+            count += emit_float_vec(*v, base, upper_hex);   // however you access storage
             break;
         }
 

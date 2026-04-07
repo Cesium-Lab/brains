@@ -16,6 +16,7 @@ namespace Cesium {
 // Owns nothing 
 class Print {
   public:
+    static constexpr uint8_t FLOAT_BUF_LEN = 50;
 
     Print(Uart& uart);
 
@@ -56,8 +57,8 @@ class Print {
     - X for uppercase hex
     - 0x for lowercase hex with '0x'
     - 0X for uppercase hex with '0x'
-    - fv3/fV3 for float vector (only length 3 for now)
-    - fX3/fx3 for hex vector (only length 3 for now)
+    - vf3/Vf3 for float vector (only length 3 for now)
+    - vX3/vx3/Vx3/VX3 for hex vector (only length 3 for now)
 
     - s or S for cstring
     - % for escaping 
@@ -73,6 +74,8 @@ class Print {
 
   private:
     Uart& _uart;
+
+    char _float_buf[FLOAT_BUF_LEN] = {};       // buffer to hold the formatted float
 };
 
 } // namespace Cesium
