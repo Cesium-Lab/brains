@@ -24,7 +24,7 @@ class Print {
     int putk(const char* cstr);
 
     // upper_hex for hex digits, false for lowercase, true for uppercase
-    uint32_t emit_num(uint32_t num, uint32_t base, bool upper_hex);
+    uint32_t emit_num(uint32_t num, uint32_t base, bool upper_hex = false);
 
 
     /*
