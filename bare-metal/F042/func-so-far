@@ -1,0 +1,65 @@
+# Assembly 
+08000000 <g_pfnVectors>:
+
+# startup.s
+080000c0 <Reset_Handler>:
+080000ca <CopyDataLoop>:
+080000d8 <CopyDataDone>:
+080000de <ZeroBSSLoop>:
+080000e8 <ZeroBSSDone>:
+080000ec <InfiniteLoop>:
+08000108 <ADC1_IRQHandler>:
+0800010a <PUT32>:
+0800010e <GET32>:
+
+# clock.c
+08000112 <clock_set>:
+
+# gpio.c
+08000158 <pin_valid>:
+0800018e <gpio_init>:
+080001f8 <gpio_set_mode>:
+0800027c <gpio_set_output>:
+0800029c <gpio_set_input>:
+080002bc <gpio_set_analog>:
+080002dc <gpio_set_alt>:
+08000386 <gpio_write>:
+080003e8 <gpio_write_on>:
+08000408 <gpio_write_off>:
+08000428 <gpio_read>:
+
+# uart.c
+08000478 <uart_init>:
+08000520 <uart_brr_from_clk>:
+0800053c <uart_begin>:
+08000618 <uart_put8>:
+0800065a <uart_put_cstr>:
+08000698 <uart_putn>:
+080006da <uart_has_data>:
+08000708 <uart_get8>:
+
+# print.c
+0800072c <print_begin>:
+0800077c <emit_num>:
+08000890 <printk>:
+080008d0 <vprintk>:
+
+# main
+08000ae0 <delay>:
+08000b00 <main>:
+
+# Random other stuff
+08000bb8 <__udivsi3>:
+08000cc4 <__aeabi_uidivmod>:
+08000ccc <__aeabi_idiv0>:
+20000000 <uart>:
+00000000 <.ARM.attributes>:
+00000000 <.comment>:
+00000000 <.debug_line>:
+00000000 <.debug_line_str>:
+00000000 <.debug_info>:
+00000000 <.debug_abbrev>:
+00000000 <.debug_aranges>:
+00000000 <.debug_str>:
+00000000 <.debug_rnglists>:
+00000000 <.debug_frame>:

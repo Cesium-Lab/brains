@@ -1,0 +1,3 @@
+# Specific to this folder
+flight/src/third-party
+!flight/src/third-party/README.md
