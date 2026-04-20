@@ -1,0 +1,276 @@
+Archive member included to satisfy reference by file (symbol)
+
+/Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+                              /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o (__aeabi_uidiv)
+/Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                              /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+
+There are no discarded input sections
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00004000         xr
+RAM              0x20000000         0x00001000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+LOAD /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+START GROUP
+LOAD /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a
+LOAD /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libg.a
+LOAD /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a
+END GROUP
+
+.text           0x08000000      0xe08
+                0x08000000                        . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x08000000       0xc0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+                0x08000000                g_pfnVectors
+ *(.text*)
+ .text          0x080000c0        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .text.Reset_Handler
+                0x080000c0       0x48 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+                0x080000c0                Reset_Handler
+ .text.Default_Handler
+                0x08000108        0xa /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+                0x08000108                TIM1_BRK_UP_TRG_COM_IRQHandler
+                0x08000108                TSC_IRQHandler
+                0x08000108                HardFault_Handler
+                0x08000108                SysTick_Handler
+                0x08000108                PendSV_Handler
+                0x08000108                NMI_Handler
+                0x08000108                I2C1_IRQHandler
+                0x08000108                RCC_CRS_IRQHandler
+                0x08000108                SPI1_IRQHandler
+                0x08000108                USART1_IRQHandler
+                0x08000108                TIM1_CC_IRQHandler
+                0x08000108                EXTI2_3_IRQHandler
+                0x08000108                ADC1_IRQHandler
+                0x08000108                TIM17_IRQHandler
+                0x08000108                CEC_CAN_IRQHandler
+                0x08000108                RTC_IRQHandler
+                0x08000108                PVD_VDDIO2_IRQHandler
+                0x08000108                TIM16_IRQHandler
+                0x08000108                TIM3_IRQHandler
+                0x08000108                EXTI4_15_IRQHandler
+                0x08000108                DMA1_Channel1_IRQHandler
+                0x08000108                Default_Handler
+                0x08000108                TIM14_IRQHandler
+                0x08000108                DMA1_Channel4_5_IRQHandler
+                0x08000108                EXTI0_1_IRQHandler
+                0x08000108                USB_IRQHandler
+                0x08000108                SPI2_IRQHandler
+                0x08000108                SVC_Handler
+                0x08000108                WWDG_IRQHandler
+                0x08000108                TIM2_IRQHandler
+                0x08000108                DMA1_Channel2_3_IRQHandler
+                0x08000108                USART2_IRQHandler
+                0x08000108                FLASH_IRQHandler
+                0x0800010a                PUT32
+                0x0800010e                GET32
+ *fill*         0x08000112        0x2 
+ .text          0x08000114       0xd4 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+                0x08000114                clock_init_48mhz
+                0x080001a0                clock_set
+ .text          0x080001e8      0x320 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+                0x080001e8                pin_valid
+                0x0800021e                gpio_init
+                0x08000288                gpio_set_mode
+                0x0800030c                gpio_set_output
+                0x0800032c                gpio_set_input
+                0x0800034c                gpio_set_analog
+                0x0800036c                gpio_set_alt
+                0x08000416                gpio_write
+                0x08000478                gpio_write_on
+                0x08000498                gpio_write_off
+                0x080004b8                gpio_read
+ .text          0x08000508      0x2c0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+                0x08000508                uart_init
+                0x080005b0                uart_brr_from_clk
+                0x080005cc                uart_begin
+                0x080006b4                uart_put8
+                0x080006f6                uart_put_cstr
+                0x08000734                uart_putn
+                0x08000776                uart_has_data
+                0x080007a4                uart_get8
+ .text          0x080007c8      0x3b4 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+                0x080007c8                print_begin
+                0x08000818                emit_num
+                0x0800092c                printk
+                0x0800096c                vprintk
+ .text          0x08000b7c       0x70 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+                0x08000b9c                main
+ .text          0x08000bec      0x114 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+                0x08000bec                __udivsi3
+                0x08000bec                __aeabi_uidiv
+                0x08000cf8                __aeabi_uidivmod
+ .text          0x08000d00        0x4 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                0x08000d00                __aeabi_ldiv0
+                0x08000d00                __aeabi_idiv0
+ *(.rodata*)
+ .rodata        0x08000d04      0x104 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+                0x08000e08                        . = ALIGN (0x4)
+                0x08000e08                        _etext = .
+                0x08000e08                        _sidata = _etext
+
+.glue_7         0x08000e08        0x0
+ .glue_7        0x08000e08        0x0 linker stubs
+
+.glue_7t        0x08000e08        0x0
+ .glue_7t       0x08000e08        0x0 linker stubs
+
+.vfp11_veneer   0x08000e08        0x0
+ .vfp11_veneer  0x08000e08        0x0 linker stubs
+
+.v4_bx          0x08000e08        0x0
+ .v4_bx         0x08000e08        0x0 linker stubs
+
+.iplt           0x08000e08        0x0
+ .iplt          0x08000e08        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+
+.rel.dyn        0x08000e08        0x0
+ .rel.iplt      0x08000e08        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+
+.data           0x20000000        0x0 load address 0x08000e08
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sdata = .
+ *(.data*)
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .data          0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+ .data          0x20000000        0x0 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .data          0x20000000        0x0 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _edata = .
+
+.igot.plt       0x20000000        0x0 load address 0x08000e08
+ .igot.plt      0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+
+.bss            0x20000000       0x1c load address 0x08000e08
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sbss = .
+ *(.bss*)
+ .bss           0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .bss           0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .bss           0x20000000        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .bss           0x20000000       0x18 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+                0x20000000                UART1
+                0x2000000c                UART2
+ .bss           0x20000018        0x4 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+                0x20000018                _stdout
+ .bss           0x2000001c        0x0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+ .bss           0x2000001c        0x0 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .bss           0x2000001c        0x0 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+ *(COMMON)
+                0x2000001c                        . = ALIGN (0x4)
+                0x2000001c                        _ebss = .
+                0x20001000                        _stack_start = (ORIGIN (RAM) + LENGTH (RAM))
+OUTPUT(build/hello.elf elf32-littlearm)
+LOAD linker stubs
+
+.ARM.attributes
+                0x00000000       0x2d
+ .ARM.attributes
+                0x00000000       0x21 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .ARM.attributes
+                0x00000021       0x2c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .ARM.attributes
+                0x0000004d       0x2c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .ARM.attributes
+                0x00000079       0x2c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .ARM.attributes
+                0x000000a5       0x2c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .ARM.attributes
+                0x000000d1       0x2c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+ .ARM.attributes
+                0x000000fd       0x1e /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x0000011b       0x1e /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+
+.comment        0x00000000       0x46
+ .comment       0x00000000       0x46 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+                                 0x47 (size before relaxing)
+ .comment       0x00000046       0x47 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .comment       0x00000046       0x47 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .comment       0x00000046       0x47 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .comment       0x00000046       0x47 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_line     0x00000000      0xa4c
+ .debug_line    0x00000000       0x80 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .debug_line    0x00000080      0x120 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_line    0x000001a0      0x25f /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_line    0x000003ff      0x229 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_line    0x00000628      0x2f7 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_line    0x0000091f      0x12d /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_line_str
+                0x00000000      0x111
+ .debug_line_str
+                0x00000000      0x111 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+                                 0x3f (size before relaxing)
+ .debug_line_str
+                0x00000111       0xd2 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .debug_line_str
+                0x00000111       0xd2 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+
+.debug_info     0x00000000      0xc2d
+ .debug_info    0x00000000       0x30 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .debug_info    0x00000030      0x117 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_info    0x00000147      0x3b0 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_info    0x000004f7      0x361 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_info    0x00000858      0x2bd /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_info    0x00000b15      0x118 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_abbrev   0x00000000      0x56a
+ .debug_abbrev  0x00000000       0x24 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .debug_abbrev  0x00000024       0xe6 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_abbrev  0x0000010a       0xef /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_abbrev  0x000001f9      0x155 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_abbrev  0x0000034e      0x16d /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_abbrev  0x000004bb       0xaf /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_aranges  0x00000000       0xc8
+ .debug_aranges
+                0x00000000       0x28 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+ .debug_aranges
+                0x00000028       0x20 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_aranges
+                0x00000048       0x20 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_aranges
+                0x00000068       0x20 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_aranges
+                0x00000088       0x20 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_aranges
+                0x000000a8       0x20 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_str      0x00000000      0x3a5
+ .debug_str     0x00000000      0x3a5 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+                                 0x5b (size before relaxing)
+ .debug_str     0x000003a5      0x17d /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_str     0x000003a5      0x21a /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_str     0x000003a5      0x231 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_str     0x000003a5      0x20c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_str     0x000003a5      0x19b /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+
+.debug_rnglists
+                0x00000000       0x19
+ .debug_rnglists
+                0x00000000       0x19 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccVsAaxU.o
+
+.debug_frame    0x00000000      0x3cc
+ .debug_frame   0x00000000       0x50 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc7Jx61f.o
+ .debug_frame   0x00000050      0x170 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccDt8DiB.o
+ .debug_frame   0x000001c0      0x110 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//cc4Nj7oR.o
+ .debug_frame   0x000002d0       0x90 /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccUsJUvH.o
+ .debug_frame   0x00000360       0x4c /var/folders/l4/vmh1rmg52flbd1tpkc0s470c0000gn/T//ccSyHHEJ.o
+ .debug_frame   0x000003ac       0x20 /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
