@@ -96,27 +96,34 @@ int main() {
     Lis2Mdl lis(spi_mag, Pin::MAG_CS);
     lis.initialize();
 
-    while(1) {
-        p.printk("----- LOOP -----\n");
+    uint8_t icm_id = icm.chip_id();
+    p.printk("ICM20948 ID: %0X\n", icm_id); // Should be 0xEA
 
-        if (uart.available())
-        {
-            Gpio::write_digital(Pin::BUILTIN_LED, true);
-            uint8_t c = uart.read();
-            p.printk("Received %c", c);
-            Time::delay(25);
-            Gpio::write_digital(Pin::BUILTIN_LED, false);
-        }
+    uint8_t adxl_id = adxl.chip_id();
+    p.printk("ADXL375 ID: %0X\n", adxl_id); // Should be 0xE5
+
+    uint8_t lis_id = lis.chip_id();
+    p.printk("LIS2MDL ID: %0X\n", lis_id); // Should be 0x40
+
+
+    while(1) {
+        // p.printk("----- LOOP -----\n");
+
+        // if (uart.available())
+        // {
+        //     Gpio::write_digital(Pin::BUILTIN_LED, true);
+        //     uint8_t c = uart.read();
+        //     p.printk("Received %c", c);
+        //     Time::delay(25);
+        //     Gpio::write_digital(Pin::BUILTIN_LED, false);
+        // }
 
         Time::delay(25);
 
         //////////////////////////////////////////////////
         //              ICM20948
         //////////////////////////////////////////////////
-        p.printk("ICM20948:\n"); 
-
-        uint8_t icm_id = icm.chip_id();
-        p.printk("ID: %0X\n", icm_id); // Should be 0xEA
+        // p.printk("ICM20948:\n"); 
 
         // Sensor::icm20948_data_t data_icm = icm.read();
         // p.printk("Acceleration [m/s2]: %v3\n", &data_icm.accel_m_s2);
@@ -126,26 +133,23 @@ int main() {
         //////////////////////////////////////////////////
         //              ADXL375
         //////////////////////////////////////////////////
-        p.printk("ADXL375:\n");
-
-        uint8_t adxl_id = adxl.chip_id();
-        p.printk("ID: %0X\n", adxl_id); // Should be 0xE5
+        // p.printk("ADXL375:\n");
 
         Sensor::adxl375_data_t data_shock = adxl.read();
-        p.printk("Acceleration [m/s2]: %vX3\n", &data_shock.accel_m_s2);
+        // p.printk("Acceleration [m/s2]: %vX3\n", &data_shock.accel_m_s2);
+        
+        uart.transmit((uint8_t*)&data_shock.accel_m_s2, sizeof(float) * 3);
+        uart.transmit("\n");
 
         //////////////////////////////////////////////////
         //              LIS2MDL
         //////////////////////////////////////////////////
-        p.printk("LIS2MDL:\n");
-        
-        uint8_t lis_id = lis.chip_id();
-        p.printk("ID: %0X\n", lis_id); // Should be 0x40
+        // p.printk("LIS2MDL:\n");
 
         // Sensor::lis2mdl_data_t mag_data = lis.read();
         // p.printk("Magnetic Field [uT]: %v3\n", &mag_data.B_field_uT);
 
-        Time::delay(1000);
+        // Time::delay(1000);
     }
 
     return 0;

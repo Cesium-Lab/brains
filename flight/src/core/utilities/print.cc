@@ -208,8 +208,6 @@ int Print::vprintk(const char* format, va_list args) {
 
 
 /*
-
-
 ICM20948:
 ID: 0x0
 ADXL375:
