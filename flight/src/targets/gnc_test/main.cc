@@ -138,6 +138,9 @@ int main() {
         Sensor::adxl375_data_t data_shock = adxl.read();
         // p.printk("Acceleration [m/s2]: %vX3\n", &data_shock.accel_m_s2);
         
+        uint8_t sync[2] = {0xAA, 0x55};
+        uart.transmit(sync, 2);
+        uart.transmit(adxl_id);
         uart.transmit((uint8_t*)&data_shock.accel_m_s2, sizeof(float) * 3);
         uart.transmit("\n");
 
