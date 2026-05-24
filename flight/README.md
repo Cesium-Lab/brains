@@ -112,3 +112,7 @@ flight/
 └── platformio.ini                 # PlatformIO config
 
 ```
+
+
+### Resources
+pio check -e esp32-arduino-gnc_test
