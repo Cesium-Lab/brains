@@ -10,4 +10,7 @@
 - GNC navigation (Sensors --> filtering --> state estimation --> uart)
   - [ ] Implement a simple Kalman filter for sensor fusion
   - [ ] Test the Kalman filter
+  - [ ] Algorithms for calibrating sensors
   
+
+
