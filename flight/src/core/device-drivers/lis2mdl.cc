@@ -41,7 +41,14 @@ lis2mdl_data_t Lis2Mdl::read() {
     result.B_field_uT[2] = bytes_to_float(buffer[5], buffer[4]) * MAG_LSB_TO_MGAUSS * MGAUSS_TO_uT;
     // result.temp = bytes_to_float(buffer[7], buffer[6]) / TEMP_DEG_C_TO_LSB; // TODO
 
+    result.B_field_uT = _cal_scale.cwiseProduct(result.B_field_uT - _cal_bias);
+
     return result;
+}
+
+void Lis2Mdl::set_calibration(const lis2mdl_cal_t& cal) {
+    _cal_bias  = cal.bias;
+    _cal_scale = cal.scale;
 }
 
 

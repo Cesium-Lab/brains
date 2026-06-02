@@ -26,7 +26,12 @@ namespace Cesium::Sensor {
 
 struct lis2mdl_data_t {
     Cesium::Vector3f B_field_uT;
-    float temp; // deg C 
+    float temp; // deg C
+};
+
+struct lis2mdl_cal_t {
+    Cesium::Vector3f bias;   // b in: B_true = s * (B_raw - b)
+    Cesium::Vector3f scale;  // s (per-axis soft-iron)
 };
 
 class Lis2Mdl {
@@ -54,6 +59,7 @@ class Lis2Mdl {
     /* User functions */
     uint8_t chip_id();
     lis2mdl_data_t read();
+    void set_calibration(const lis2mdl_cal_t& cal);
 
     /* Basic functions TODO: put in spi driver? */
     uint8_t _read_single(uint8_t reg);
@@ -65,6 +71,9 @@ class Lis2Mdl {
   protected:
     Spi _spi;
     uint8_t _cs_pin;
+
+    Cesium::Vector3f _cal_bias  = Cesium::Vector3f::Zero();
+    Cesium::Vector3f _cal_scale = Cesium::Vector3f::Ones();
 
     uint8_t _rx[20]; // Maximum burst read of 19 (arbitrary)
     uint8_t _tx[20]; // Maximum burst read of 19 (arbitrary)

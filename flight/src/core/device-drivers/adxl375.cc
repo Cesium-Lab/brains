@@ -55,9 +55,16 @@ adxl375_data_t Adxl375::read() {
     result.accel_m_s2[1] = bytes_to_16(buffer[3], buffer[2]) * LSB_TO_G * gravity;
     result.accel_m_s2[2] = bytes_to_16(buffer[5], buffer[4]) * LSB_TO_G * gravity;
 
+    result.accel_m_s2 = _cal_scale.cwiseProduct(result.accel_m_s2 - _cal_bias);
+
     return result;
 }
 
+
+void Adxl375::set_calibration(const adxl375_cal_t& cal) {
+    _cal_bias  = cal.bias;
+    _cal_scale = cal.scale;
+}
 
 //////////////////////////////////////////////////
 //              Read

@@ -23,6 +23,12 @@ struct icm20948_data_t {
     float temp_C; // deg C
 };
 
+struct icm20948_cal_t {
+    Cesium::Vector3f accel_bias;   // b in: a_true = S * (a_raw - b)
+    Cesium::Vector3f accel_scale;  // S
+    Cesium::Vector3f gyro_bias;    // b in: w_true = w_raw - b
+};
+
 // Must call constructor AFTER SPI IS INITIALIZED
 class Icm20948 {
 
@@ -62,6 +68,7 @@ class Icm20948 {
     bool set_accel_range(uint8_t range);
     bool set_gyro_range(uint8_t range);
     icm20948_data_t read();
+    void set_calibration(const icm20948_cal_t& cal);
 
     /* Basic functions */
     void _select_user_bank(uint8_t bank);
@@ -76,6 +83,10 @@ class Icm20948 {
     uint8_t _cs_pin;
     int8_t _accel_range;
     int8_t _gyro_range;
+
+    Cesium::Vector3f _cal_accel_bias  = Cesium::Vector3f::Zero();
+    Cesium::Vector3f _cal_accel_scale = Cesium::Vector3f::Ones();
+    Cesium::Vector3f _cal_gyro_bias   = Cesium::Vector3f::Zero();
 
     uint8_t _rx[20]; // Maximum burst read of 19 (arbitrary)
     uint8_t _tx[20]; // Maximum burst read of 19 (arbitrary)

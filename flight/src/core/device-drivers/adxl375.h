@@ -25,6 +25,11 @@ struct adxl375_data_t {
     Cesium::Vector3f accel_m_s2;
 };
 
+struct adxl375_cal_t {
+    Cesium::Vector3f bias;   // b in: a_true = S * (a_raw - b)
+    Cesium::Vector3f scale;  // S
+};
+
 
 // Must call constructor AFTER SPI IS INITIALIZED
 class Adxl375 {
@@ -49,6 +54,7 @@ class Adxl375 {
     /* User functions */
     uint8_t chip_id();
     adxl375_data_t read();
+    void set_calibration(const adxl375_cal_t& cal);
 
     /* Basic functions */
     uint8_t _read_single(uint8_t reg);
@@ -60,6 +66,9 @@ class Adxl375 {
   protected:
     Spi _spi;
     uint8_t _cs_pin;
+
+    Cesium::Vector3f _cal_bias  = Cesium::Vector3f::Zero();
+    Cesium::Vector3f _cal_scale = Cesium::Vector3f::Ones();
 
     uint8_t _rx[20]; // Maximum burst read of 19 (arbitrary)
     uint8_t _tx[20]; // Maximum burst read of 19 (arbitrary)

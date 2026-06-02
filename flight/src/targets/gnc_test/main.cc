@@ -23,12 +23,7 @@ using namespace Cesium;
 using namespace Cesium::Sensor;
 
 int main() {
-
-    
-
     hal_init();
-
-
 
     /* LED GPIO */
     Gpio::init_digital(Pin::BUILTIN_LED, GpioType::DIGITAL_OUT);
@@ -42,6 +37,7 @@ int main() {
 
     Print p(uart);
     p.begin();
+    uint8_t sync[2] = {0xAA, 0x55};
 
     // while(1) {
     //     p.putk("hello\n");
@@ -91,8 +87,7 @@ int main() {
     Adxl375 adxl(spi_shock, Pin::SHOCK_CS);
     adxl.initialize();
 
-
-    /* ADXL375 */
+    /* LIS3MDL */
     Lis2Mdl lis(spi_mag, Pin::MAG_CS);
     lis.initialize();
 
@@ -104,6 +99,24 @@ int main() {
 
     uint8_t lis_id = lis.chip_id();
     p.printk("LIS2MDL ID: %0X\n", lis_id); // Should be 0x40
+
+
+    /* Random calibration stuff */
+    adxl375_cal_t cal;
+    cal.bias  << 5.673008f, 9.862392f, -4.368781f;   // b from Python output
+    cal.scale << -8.141628f, 16.267042f, 6.144510f;   // S from Python output
+    adxl.set_calibration(cal);
+
+    icm20948_cal_t icm_cal;
+    icm_cal.accel_bias  << -13.404270, 1.346884, 2.307035;
+    icm_cal.accel_scale << 0.290526, 1.113349, 0.950309;
+    icm_cal.gyro_bias   << 33.500915, -5.855488, -7.715244;
+    icm.set_calibration(icm_cal);
+
+    lis2mdl_cal_t lis_cal;
+    lis_cal.bias  << 0.0f, 0.0f, 0.0f;
+    lis_cal.scale << 1.0f, 1.0f, 1.0f;
+    lis.set_calibration(lis_cal);
 
 
     while(1) {
@@ -119,40 +132,25 @@ int main() {
         // }
 
         Time::delay(25);
-
-        //////////////////////////////////////////////////
-        //              ICM20948
-        //////////////////////////////////////////////////
-        // p.printk("ICM20948:\n"); 
-
-        // Sensor::icm20948_data_t data_icm = icm.read();
-        // p.printk("Acceleration [m/s2]: %v3\n", &data_icm.accel_m_s2);
-        // p.printk("Ang. Velocity [deg/s]: %v3\n", &data_icm.gyro_dps);
-        // p.printk("Temperature [ºC]: %f\n", data_icm.temp_C);
-
-        //////////////////////////////////////////////////
-        //              ADXL375
-        //////////////////////////////////////////////////
-        // p.printk("ADXL375:\n");
-
+        Sensor::icm20948_data_t data_icm = icm.read();
         Sensor::adxl375_data_t data_shock = adxl.read();
-        // p.printk("Acceleration [m/s2]: %vX3\n", &data_shock.accel_m_s2);
-        
-        uint8_t sync[2] = {0xAA, 0x55};
+        Sensor::lis2mdl_data_t mag_data = lis.read();
+
+
         uart.transmit(sync, 2);
-        uart.transmit(adxl_id);
+
+        // ICM20948
+        uart.transmit((uint8_t*)&data_icm.accel_m_s2, sizeof(float) * 3);
+        uart.transmit((uint8_t*)&data_icm.gyro_dps, sizeof(float) * 3);
+        uart.transmit((uint8_t*)&data_icm.temp_C, sizeof(float));
+        
+        // ADXL375
         uart.transmit((uint8_t*)&data_shock.accel_m_s2, sizeof(float) * 3);
+        
+        // LIS2MDL
+        uart.transmit((uint8_t*)&mag_data.B_field_uT, sizeof(float) * 3);
+        
         uart.transmit("\n");
-
-        //////////////////////////////////////////////////
-        //              LIS2MDL
-        //////////////////////////////////////////////////
-        // p.printk("LIS2MDL:\n");
-
-        // Sensor::lis2mdl_data_t mag_data = lis.read();
-        // p.printk("Magnetic Field [uT]: %v3\n", &mag_data.B_field_uT);
-
-        // Time::delay(1000);
     }
 
     return 0;

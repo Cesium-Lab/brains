@@ -103,10 +103,20 @@ icm20948_data_t Icm20948::read() {
     result.gyro_dps[1] = bytes_to_float(buffer + 8) / gyro_scale_factor;
     result.gyro_dps[2] = bytes_to_float(buffer + 10) / gyro_scale_factor;
 
-    // TEMP_degC = ((TEMP_OUT – RoomTemp_Offset)/Temp_Sensitivity) + 21degC
-    result.temp_C = (bytes_to_float(buffer + 12) - ROOM_TEMP_OFFSET) / TEMP_SENSITIVITY + 21; 
+    // TEMP_degC = ((TEMP_OUT – RoomTemp_Offset) / Temp_Sensitivity) + 21
+    // RoomTemp_Offset is the raw ADC output at 21°C (datasheet: 0 LSB), not 21 itself
+    result.temp_C = bytes_to_float(buffer + 12) / TEMP_SENSITIVITY + ROOM_TEMP_OFFSET;
+
+    result.accel_m_s2 = _cal_accel_scale.cwiseProduct(result.accel_m_s2 - _cal_accel_bias);
+    result.gyro_dps   = result.gyro_dps - _cal_gyro_bias;
 
     return result;
+}
+
+void Icm20948::set_calibration(const icm20948_cal_t& cal) {
+    _cal_accel_bias  = cal.accel_bias;
+    _cal_accel_scale = cal.accel_scale;
+    _cal_gyro_bias   = cal.gyro_bias;
 }
 
 
